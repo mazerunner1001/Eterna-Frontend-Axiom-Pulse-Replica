@@ -1,0 +1,380 @@
+/**
+ * Token Card Grid - Pixel-perfect Axiom Trade Pulse Page Replica
+ * Three independently scrollable columns: New Pairs | Final Stretch | Migrated
+ */
+
+'use client';
+
+import React from 'react';
+import { TokenPair } from '@/types';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  Users, 
+  Twitter,
+  Globe,
+  ExternalLink,
+  Zap,
+  Activity,
+  CheckCircle2,
+  Flame,
+  Lock,
+  Music2,
+  AlertCircle,
+  Droplets
+} from 'lucide-react';
+import { Tooltip } from '../molecules/Tooltip';
+
+interface TokenCardGridProps {
+  tokens: TokenPair[];
+  isLoading?: boolean;
+}
+
+const formatNumber = (num: number) => {
+  if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
+  if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
+  if (num >= 1e3) return `$${(num / 1e3).toFixed(1)}K`;
+  return `$${num.toFixed(2)}`;
+};
+
+const formatCompact = (num: number) => {
+  if (num >= 1e3) return `${(num / 1e3).toFixed(1)}K`;
+  return num.toString();
+};
+
+const formatPrice = (price: number) => {
+  if (price < 0.000001) return `$${price.toFixed(9)}`;
+  if (price < 0.01) return `$${price.toFixed(6)}`;
+  if (price < 1) return `$${price.toFixed(4)}`;
+  return `$${price.toFixed(2)}`;
+};
+
+const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
+  const isPositive = token.priceChange24h >= 0;
+  
+  // Random percentage values for indicators
+  const percentages = {
+    p1: Math.floor(Math.random() * 70),
+    p2: Math.floor(Math.random() * 30),
+    p3: Math.floor(Math.random() * 90),
+    p4: Math.floor(Math.random() * 90),
+    p5: Math.floor(Math.random() * 30),
+  };
+
+  // Dynamic status badges with pill styling
+  const statusBadges = [
+    { label: `${percentages.p1}%`, color: percentages.p1 > 30 ? 'text-red-500' : 'text-gray-600', tooltip: 'Top Holder %' },
+    { label: `${percentages.p2}%`, color: percentages.p2 > 15 ? 'text-emerald-500' : 'text-gray-600', tooltip: 'Liquidity Score' },
+    { label: 'DS', color: 'text-blue-400', tooltip: 'Developer Status' },
+    { label: `${percentages.p3}%`, color: percentages.p3 > 40 ? 'text-emerald-500' : 'text-gray-600', tooltip: 'Holder Distribution' },
+    { label: `${percentages.p4}%`, color: percentages.p4 > 40 ? 'text-emerald-500' : 'text-gray-600', tooltip: 'Burn Rate' },
+    { label: `${percentages.p5}%`, color: percentages.p5 > 15 ? 'text-red-500' : 'text-gray-600', tooltip: 'Whale Activity' },
+  ];
+
+  return (
+    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] transition-all cursor-pointer p-2 flex gap-2.5 group">
+      {/* Left Column: Image + Username (takes full height) */}
+      <div className="shrink-0 flex flex-col justify-between">
+        <div className="relative">
+          <img 
+            src={token.image} 
+            alt={token.symbol}
+            className="w-[76px] h-[76px] rounded-md object-cover border-2 border-green-500 group-hover:border-green-400 transition-colors"
+          />
+          <Tooltip content="Verified Token">
+            <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
+              <Music2 className="w-2.5 h-2.5 text-white" />
+            </div>
+          </Tooltip>
+        </div>
+        <div className="text-gray-500 text-[11px] text-center mt-0.5">
+          {token.symbol.slice(0, 4)}...pump
+        </div>
+      </div>
+
+      {/* Right Content: Token Info + Stats + Badges */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between">
+        {/* Top Row: Name/Details | Stats */}
+        <div className="flex items-start justify-between gap-2 mb-1">
+          {/* Token Info */}
+          <div className="flex-1 min-w-0">
+            {/* Symbol + Full Name */}
+            <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+              <h3 className="font-bold text-white text-[17px] hover:text-blue-400 transition-colors">{token.symbol}</h3>
+              <span className="text-gray-500 text-[13px] truncate">{token.name}</span>
+              {token.badges.some(b => b.type === 'verified') && (
+                <Tooltip content="Verified Token">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                </Tooltip>
+              )}
+            </div>
+            
+            {/* Age + Icons Row */}
+            <div className="flex items-center gap-2.5 text-xs">
+              <Tooltip content="Token Age">
+                <span className="text-teal-400 font-semibold text-[13px]">{token.age}</span>
+              </Tooltip>
+              <Tooltip content="Social Links">
+                <button className="hover:opacity-80 transition-opacity">
+                  <Users className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Website">
+                <button className="hover:opacity-80 transition-opacity">
+                  <Globe className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Explorer">
+                <button className="hover:opacity-80 transition-opacity">
+                  <ExternalLink className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Community">
+                <button className="hover:opacity-80 transition-opacity">
+                  <Users className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Total Holders">
+                <span className="text-white text-[13px] font-semibold">{token.holders}</span>
+              </Tooltip>
+              <Tooltip content="Activity">
+                <button className="hover:opacity-80 transition-opacity">
+                  <Activity className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Total Transactions">
+                <span className="text-white text-[13px] font-semibold">{token.txns.buys + token.txns.sells}</span>
+              </Tooltip>
+            </div>
+          </div>
+
+          {/* Right: Stats Column */}
+          <div className="text-right shrink-0 space-y-0.5">
+            <Tooltip content="Market Cap">
+              <div className="flex items-center justify-end gap-1.5">
+                <span className="text-gray-600 text-[11px]">MC</span>
+                <span className="text-yellow-400 font-bold text-[15px]">{formatNumber(token.marketCap)}</span>
+              </div>
+            </Tooltip>
+            <Tooltip content="24h Volume">
+              <div className="flex items-center justify-end gap-1.5">
+                <span className="text-gray-600 text-[11px]">V</span>
+                <span className="text-white font-semibold text-[15px]">{formatNumber(token.volume24h)}</span>
+              </div>
+            </Tooltip>
+            <Tooltip content={`F-Score: 1.563 | TX Count: ${token.txns.buys + token.txns.sells}`}>
+              <div className="flex items-center gap-1.5 justify-end text-[10px]">
+                <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
+                  <defs>
+                    <linearGradient id={`solGrad-${token.id}`} x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="#00ffa3"/>
+                      <stop offset="1" stopColor="#dc1fff"/>
+                    </linearGradient>
+                  </defs>
+                  <path fill={`url(#solGrad-${token.id})`} d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+                  <path fill={`url(#solGrad-${token.id})`} d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+                  <path fill={`url(#solGrad-${token.id})`} d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z"/>
+                </svg>
+                <span className="text-gray-600">F</span>
+                <span className="text-white font-semibold text-[13px]">1.563</span>
+                <span className="text-gray-500 text-[10px]">TX {token.txns.buys + token.txns.sells}</span>
+                <div className="w-8 h-0.5 bg-gray-800 rounded-full overflow-hidden flex">
+                  <div className="h-full bg-emerald-500" style={{ width: '60%' }} />
+                  <div className="h-full bg-red-500" style={{ width: '40%' }} />
+                </div>
+              </div>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Bottom Row: Status Badges | Button */}
+        <div className="flex items-center justify-between gap-2 overflow-hidden mt-auto">
+          {/* Status Badges Row - Pills */}
+          <div className="flex items-center gap-1.5 text-xs font-semibold shrink min-w-0 overflow-x-hidden">
+            {statusBadges.map((badge, idx) => (
+              <Tooltip key={idx} content={badge.tooltip}>
+                <div 
+                  className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} hover:bg-black/80 transition-all cursor-help shrink-0`}
+                >
+                  {idx === 0 && <Users className="w-3 h-3" />}
+                  {idx === 1 && <Activity className="w-3 h-3" />}
+                  {idx === 3 && <TrendingDown className="w-3 h-3" />}
+                  {idx === 4 && <AlertCircle className="w-3 h-3" />}
+                  {idx === 5 && <Droplets className="w-3 h-3" />}
+                  <span className="text-[11px]">{badge.label}</span>
+                </div>
+              </Tooltip>
+            ))}
+          </div>
+
+          {/* Action Button */}
+          <Tooltip content="Quick Trade">
+            <button 
+              className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0 hover:shadow-lg hover:shadow-blue-500/30"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span className="whitespace-nowrap">0 SOL</span>
+            </button>
+          </Tooltip>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ColumnHeader: React.FC<{ title: string; count: number; icon: React.ReactNode }> = ({ title, count, icon }) => {
+  const [activeTab, setActiveTab] = React.useState<'P1' | 'P2' | 'P3'>('P1');
+
+  return (
+    <div className="flex items-center justify-between px-3 py-2.5 bg-[#111111] border-b border-r border-[#1f2937]/50">
+      <h2 className="text-base font-semibold text-white">
+        {title}
+      </h2>
+      
+      {/* Pill-shaped control bar */}
+      <div className="flex items-center gap-0 bg-[#0a0a0a] rounded-full px-3 py-1.5 border border-gray-800/50">
+        {/* Left section: Lightning + Count */}
+        <div className="flex items-center gap-1.5">
+          <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+          </svg>
+          <span className="text-white text-xs font-semibold">0</span>
+        </div>
+
+        {/* Center section: Solana logo */}
+        <div className="flex items-center gap-2 px-3">
+          <svg className="w-4 h-4" viewBox="0 0 397.7 311.7">
+            <defs>
+              <linearGradient id="solGradient" x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stopColor="#00ffa3"/>
+                <stop offset="1" stopColor="#dc1fff"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#solGradient)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+            <path fill="url(#solGradient)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+            <path fill="url(#solGradient)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z"/>
+          </svg>
+        </div>
+
+        {/* Vertical divider */}
+        <div className="w-px h-4 bg-gray-700/50" />
+
+        {/* Tabs section */}
+        <div className="flex items-center gap-2 px-3">
+          <button
+            onClick={() => setActiveTab('P1')}
+            className={`px-1.5 py-0.5 text-xs font-semibold transition-colors ${
+              activeTab === 'P1' 
+                ? 'text-blue-500' 
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            P1
+          </button>
+          <button
+            onClick={() => setActiveTab('P2')}
+            className={`px-1.5 py-0.5 text-xs font-semibold transition-colors ${
+              activeTab === 'P2' 
+                ? 'text-blue-500' 
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            P2
+          </button>
+          <button
+            onClick={() => setActiveTab('P3')}
+            className={`px-1.5 py-0.5 text-xs font-semibold transition-colors ${
+              activeTab === 'P3' 
+                ? 'text-blue-500' 
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            P3
+          </button>
+        </div>
+
+        {/* Right section: Notification dot + Settings icon */}
+        <div className="flex items-center gap-2 pl-3 ml-3 border-l border-gray-700/50">
+          <div className="relative">
+            <div className="w-2 h-2 bg-blue-500 rounded-full" />
+          </div>
+          <button className="hover:opacity-80 transition-opacity">
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading }) => {
+  // Divide tokens into three categories
+  const newPairs = tokens.filter(t => t.status === 'new');
+  const finalStretch = tokens.filter(t => t.status === 'final-stretch');
+  const migrated = tokens.filter(t => t.status === 'migrated');
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-[calc(100vh-200px)]">
+        {Array.from({ length: 3 }).map((_, colIdx) => (
+          <div key={colIdx} className="space-y-3">
+            <div className="h-12 bg-gray-800/20 rounded animate-pulse" />
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-[420px] bg-gray-800/20 rounded animate-pulse" />
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0">
+      {/* New Pairs Column - Independently Scrollable */}
+      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
+        <ColumnHeader 
+          title="New Pairs" 
+          count={newPairs.length}
+          icon={<Zap className="w-4 h-4 text-yellow-400" />}
+        />
+        <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
+          {newPairs.map((token) => (
+            <TokenCard key={token.id} token={token} />
+          ))}
+        </div>
+      </div>
+
+      {/* Final Stretch Column - Independently Scrollable */}
+      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
+        <ColumnHeader 
+          title="Final Stretch" 
+          count={finalStretch.length}
+          icon={<Flame className="w-4 h-4 text-orange-400" />}
+        />
+        <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
+          {finalStretch.map((token) => (
+            <TokenCard key={token.id} token={token} />
+          ))}
+        </div>
+      </div>
+
+      {/* Migrated Column - Independently Scrollable */}
+      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
+        <ColumnHeader 
+          title="Migrated" 
+          count={migrated.length}
+          icon={<CheckCircle2 className="w-4 h-4 text-green-400" />}
+        />
+        <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
+          {migrated.map((token) => (
+            <TokenCard key={token.id} token={token} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+TokenCardGrid.displayName = 'TokenCardGrid';
