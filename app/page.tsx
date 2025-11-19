@@ -45,14 +45,14 @@ export default function Home() {
                   <h1 className="text-base font-bold text-white tracking-wide">AXIOM</h1>
                   <span className="text-[9px] text-gray-400 px-1.5 py-0.5 rounded-sm bg-gray-800/70 font-medium">Pro</span>
                 </div>
-                <nav className="hidden lg:flex items-center gap-6 text-sm">
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Discover</a>
-                  <a href="#" className="text-blue-500 font-medium">Pulse</a>
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Trackers</a>
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Perpetuals</a>
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Yield</a>
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Vision</a>
-                  <a href="#" className="text-white hover:text-blue-400 transition-colors">Portfolio</a>
+                <nav className="hidden lg:flex items-center gap-9 text-sm">
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Discover</a>
+                  <a href="#" className="text-blue-500 font-semibold">Pulse</a>
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Trackers</a>
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Perpetuals</a>
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Yield</a>
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Vision</a>
+                  <a href="#" className="text-white hover:text-blue-400 transition-colors font-semibold">Portfolio</a>
                 </nav>
               </div>
 
@@ -72,9 +72,19 @@ export default function Home() {
 
                 {/* Chain Selector */}
                 <button className="flex items-center gap-2 px-3 py-2 bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 rounded-full text-sm transition-colors">
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                  </svg>
+                  <div className="flex items-center gap-2 px-1">
+                    <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
+                      <defs>
+                        <linearGradient id="solGradient" x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                          <stop offset="0" stopColor="#00ffa3" />
+                          <stop offset="1" stopColor="#dc1fff" />
+                        </linearGradient>
+                      </defs>
+                      <path fill="url(#solGradient)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z" />
+                    </svg>
+                  </div>
                   <span className="text-white font-semibold">SOL</span>
                   <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -100,9 +110,19 @@ export default function Home() {
                 {/* Joined Wallet/Coin Buttons Group */}
                 <div className="flex items-center">
                   <button className="flex items-center gap-2 px-3 py-2 bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 rounded-l-full text-sm transition-colors">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <div className="flex items-center gap-2 px-1">
+                    <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
+                      <defs>
+                        <linearGradient id="solGradient" x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                          <stop offset="0" stopColor="#00ffa3" />
+                          <stop offset="1" stopColor="#dc1fff" />
+                        </linearGradient>
+                      </defs>
+                      <path fill="url(#solGradient)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z" />
                     </svg>
+                  </div>
                     <span className="text-white font-semibold">0</span>
                   </button>
                   <button className="flex items-center gap-2 px-3 py-2 bg-[#0a0a0a] hover:bg-gray-800/70 border-y border-r border-gray-700/50 rounded-r-full text-sm transition-colors border-l-0">
@@ -130,88 +150,83 @@ export default function Home() {
         {/* Main Content Area - Flex Container */}
         <div className="flex-1 overflow-hidden flex flex-col">
           <div className="max-w-[1600px] mx-auto w-full px-4 flex flex-col h-full">
-          {/* Spacing section with 3 control buttons */}
-          <div className="flex items-center justify-start gap-2 py-3 shrink-0">
-            <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-              </svg>
-            </button>
-            <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
-            </button>
-            <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-          </div>
-          
-          {/* Pulse Header Row */}
-          <div className="flex items-center justify-between py-2.5 shrink-0 border-b border-gray-800/30">
-            {/* Left Section - Pulse title only */}
-            <div className="flex items-center">
-              <h2 className="text-lg font-semibold text-white">Pulse</h2>
-            </div>
-            
-            {/* Right - Display Controls */}
-            <div className="flex items-center gap-3">
-              <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
-              <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-              </button>
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors">
+            {/* Spacing section with 3 control buttons */}
+            <div className="flex items-center justify-start gap-2 py-3 shrink-0">
+              <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
-                <span className="text-white font-medium">Display</span>
-                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </button>
+              <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
               </button>
-              <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                </svg>
-              </button>
-              <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                </svg>
-              </button>
-              <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button className="w-7 h-7 rounded bg-[#0a0a0a] hover:bg-gray-800/70 border border-gray-700/50 flex items-center justify-center transition-colors">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </button>
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors relative">
-                <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span className="text-white font-medium">1</span>
-              </button>
-              <button className="flex items-center gap-1.5 px-2.5 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors">
-                <span className="text-white font-medium">≡</span>
-                <span className="text-white font-medium">0</span>
-                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
             </div>
-          </div>
 
-          {/* Token Card Grid - Three Columns */}
-          <TokenCardGrid tokens={tokens} isLoading={isLoading} />
+            {/* Pulse Header Row */}
+            <div className="flex items-center justify-between py-2.5 shrink-0 border-b border-gray-800/30">
+              {/* Left Section - Pulse title only */}
+              <div className="flex items-center">
+                <h2 className="text-lg font-semibold text-white">Pulse</h2>
+              </div>
+
+              {/* Right - Display Controls */}
+              <div className="flex items-center gap-3">
+                <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
+                  <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+                <button className="flex items-center gap-2 px-3 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                  <span className="text-white font-medium">Display</span>
+                  <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
+                  <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                </button>
+                <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
+                  <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  </svg>
+                </button>
+                <button className="w-8 h-8 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors">
+                  <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </button>
+                <button className="flex items-center gap-2 px-3 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors relative">
+                  <svg className="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-white font-medium">1</span>
+                </button>
+                <button className="flex items-center gap-1.5 px-2.5 py-1.5 bg-black hover:bg-gray-900 border border-black rounded text-sm transition-colors">
+                  <span className="text-white font-medium">≡</span>
+                  <span className="text-white font-medium">0</span>
+                  <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Token Card Grid - Three Columns */}
+            <TokenCardGrid tokens={tokens} isLoading={isLoading} />
           </div>
         </div>
 
@@ -220,19 +235,31 @@ export default function Home() {
           <div className="px-6 py-2.5">
             <div className="flex items-center justify-between text-xs">
               {/* Left side */}
-              <div className="flex items-center gap-4">
-                <button className="flex items-center gap-1.5 text-blue-500 hover:text-blue-400 transition-colors">
+              <div className="flex items-center gap-8">
+                <button className="flex items-center gap-1.5 bg-blue-900 opacity-80 text-blue-400 font-semibold hover:text-blue-400 transition-colors px-2 py-1 rounded-md">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
-                  <span className="font-medium">PRESET 2</span>
+                  <span className="text-[12px]">PRESET 1</span>
                 </button>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-0.5">
                   <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                   <span className="text-white">1</span>
-                  <span className="text-white">=</span>
+                  <div className="flex items-center gap-2 px-1">
+                    <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
+                      <defs>
+                        <linearGradient id="solGradient" x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                          <stop offset="0" stopColor="#00ffa3" />
+                          <stop offset="1" stopColor="#dc1fff" />
+                        </linearGradient>
+                      </defs>
+                      <path fill="url(#solGradient)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z" />
+                      <path fill="url(#solGradient)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z" />
+                    </svg>
+                  </div>
                   <span className="text-white font-medium">0</span>
                 </div>
                 <button className="flex items-center gap-1 text-white hover:text-blue-400 transition-colors">
@@ -272,25 +299,25 @@ export default function Home() {
                     <svg className="w-3.5 h-3.5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" />
                     </svg>
-                    <span className="text-white font-medium">$86.6K</span>
+                    <span className="text-orange-500 font-medium">$86.6K</span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" />
                     </svg>
-                    <span className="text-white font-medium">$2828</span>
+                    <span className="text-blue-300 font-medium">$2828</span>
                   </span>
                   <span className="flex items-center gap-1">
                     <svg className="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-white font-medium">$131.9</span>
+                    <span className="text-green-500 font-medium">$131.9</span>
                   </span>
                 </div>
               </div>
 
               {/* Right side */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-8">
                 <span className="text-white">$54.2K</span>
                 <div className="flex items-center gap-1.5 text-white">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

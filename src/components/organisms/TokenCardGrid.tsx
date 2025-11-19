@@ -72,7 +72,7 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
   ];
 
   return (
-    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] transition-all cursor-pointer p-2 flex gap-2.5 group">
+    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] transition-all cursor-pointer px-4 py-2 flex gap-2.5 group">
       {/* Left Column: Image + Username (takes full height) */}
       <div className="shrink-0 flex flex-col justify-between">
         <div className="relative">
@@ -101,7 +101,7 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
             {/* Symbol + Full Name */}
             <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
               <h3 className="font-bold text-white text-[17px] hover:text-blue-400 transition-colors">{token.symbol}</h3>
-              <span className="text-gray-500 text-[13px] truncate">{token.name}</span>
+              <span className="text-gray-500 text-[15px] truncate font-semibold">{token.name}</span>
               {token.badges.some(b => b.type === 'verified') && (
                 <Tooltip content="Verified Token">
                   <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
@@ -116,22 +116,22 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
               </Tooltip>
               <Tooltip content="Social Links">
                 <button className="hover:opacity-80 transition-opacity">
-                  <Users className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                  <Users className="w-4 h-4 text-blue-400 hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Website">
                 <button className="hover:opacity-80 transition-opacity">
-                  <Globe className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                  <Globe className="w-4 h-4 text-white hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Explorer">
                 <button className="hover:opacity-80 transition-opacity">
-                  <ExternalLink className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                  <ExternalLink className="w-4 h-4 text-white hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Community">
                 <button className="hover:opacity-80 transition-opacity">
-                  <Users className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                  <Users className="w-4 h-4 text-gray-400 hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Total Holders">
@@ -139,7 +139,7 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
               </Tooltip>
               <Tooltip content="Activity">
                 <button className="hover:opacity-80 transition-opacity">
-                  <Activity className="w-4 h-4 text-gray-600 hover:text-gray-400" />
+                  <Activity className="w-4 h-4 text-gray-400 hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Total Transactions">
@@ -149,21 +149,22 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
           </div>
 
           {/* Right: Stats Column */}
-          <div className="text-right shrink-0 space-y-0.5">
+          <div className="text-right shrink-0 space-y-0">
             <Tooltip content="Market Cap">
               <div className="flex items-center justify-end gap-1.5">
-                <span className="text-gray-600 text-[11px]">MC</span>
+                <span className="text-gray-600 text-[12px] font-bold">MC</span>
                 <span className="text-yellow-400 font-bold text-[15px]">{formatNumber(token.marketCap)}</span>
               </div>
             </Tooltip>
             <Tooltip content="24h Volume">
               <div className="flex items-center justify-end gap-1.5">
-                <span className="text-gray-600 text-[11px]">V</span>
+                <span className="text-gray-600 text-[11px] font-bold">V</span>
                 <span className="text-white font-semibold text-[15px]">{formatNumber(token.volume24h)}</span>
               </div>
             </Tooltip>
             <Tooltip content={`F-Score: 1.563 | TX Count: ${token.txns.buys + token.txns.sells}`}>
               <div className="flex items-center gap-1.5 justify-end text-[10px]">
+                <span className="text-gray-600 text-[10px] font-bold">F</span>
                 <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
                   <defs>
                     <linearGradient id={`solGrad-${token.id}`} x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
@@ -175,9 +176,9 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
                   <path fill={`url(#solGrad-${token.id})`} d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
                   <path fill={`url(#solGrad-${token.id})`} d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z"/>
                 </svg>
-                <span className="text-gray-600">F</span>
                 <span className="text-white font-semibold text-[13px]">1.563</span>
-                <span className="text-gray-500 text-[10px]">TX {token.txns.buys + token.txns.sells}</span>
+                <span className="text-gray-500 text-[10px] font-bold">TX</span>
+                <span className="text-white text-[13px] font-semibold"> {token.txns.buys + token.txns.sells}</span>
                 <div className="w-8 h-0.5 bg-gray-800 rounded-full overflow-hidden flex">
                   <div className="h-full bg-emerald-500" style={{ width: '60%' }} />
                   <div className="h-full bg-red-500" style={{ width: '40%' }} />
@@ -212,8 +213,8 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
             <button 
               className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0 hover:shadow-lg hover:shadow-blue-500/30"
             >
-              <Zap className="w-3.5 h-3.5" />
-              <span className="whitespace-nowrap">0 SOL</span>
+              <Zap className="w-3.5 h-3.5 text-black" />
+              <span className="whitespace-nowrap text-black">0 SOL</span>
             </button>
           </Tooltip>
         </div>
@@ -234,8 +235,8 @@ const ColumnHeader: React.FC<{ title: string; count: number; icon: React.ReactNo
       {/* Pill-shaped control bar */}
       <div className="flex items-center gap-0 bg-[#0a0a0a] rounded-full px-3 py-1.5 border border-gray-800/50">
         {/* Left section: Lightning + Count */}
-        <div className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+        <div className="flex items-center gap-1.5 mx-2">
+          <svg className="w-3.5 h-3.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
           </svg>
           <span className="text-white text-xs font-semibold">0</span>
@@ -317,13 +318,28 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading 
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-[calc(100vh-200px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg overflow-hidden">
         {Array.from({ length: 3 }).map((_, colIdx) => (
-          <div key={colIdx} className="space-y-3">
-            <div className="h-12 bg-gray-800/20 rounded animate-pulse" />
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-[420px] bg-gray-800/20 rounded animate-pulse" />
-            ))}
+          <div key={colIdx} className={`bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 ${colIdx === 0 ? 'rounded-tl-lg rounded-bl-lg' : colIdx === 2 ? 'rounded-tr-lg rounded-br-lg' : ''}`}>
+            <div className="h-16 bg-[#1a1a1a] border-b border-[#1f2937]/50 animate-pulse" />
+            <div className="flex-1 overflow-hidden space-y-0">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
+                  <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="h-4 w-32 bg-[#222222] rounded" />
+                      <div className="h-3 w-48 bg-[#222222] rounded" />
+                    </div>
+                    <div className="flex gap-2">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <div key={j} className="h-6 w-12 bg-[#222222] rounded-full" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -331,9 +347,9 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading 
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg overflow-hidden">
       {/* New Pairs Column - Independently Scrollable */}
-      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
+      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 rounded-tl-lg rounded-bl-lg">
         <ColumnHeader 
           title="New Pairs" 
           count={newPairs.length}
@@ -361,7 +377,7 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading 
       </div>
 
       {/* Migrated Column - Independently Scrollable */}
-      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
+      <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 rounded-tr-lg rounded-br-lg">
         <ColumnHeader 
           title="Migrated" 
           count={migrated.length}

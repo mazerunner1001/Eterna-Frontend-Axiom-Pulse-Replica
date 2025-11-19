@@ -12,7 +12,8 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 30000, // 30 seconds
+      staleTime: 0, // Always refetch on mount to show loading state
+      cacheTime: 0, // Don't cache data
     },
   },
 });
