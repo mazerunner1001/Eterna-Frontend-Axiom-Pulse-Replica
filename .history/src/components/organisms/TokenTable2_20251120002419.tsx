@@ -163,7 +163,7 @@ export const TokenTable2: React.FC<TokenTableProps> = React.memo(({
                       badge.type === 'verified'
                         ? 'bg-blue-500/20 text-blue-400'
                         : badge.type === 'bagholder'
-                        ? 'bg-yellow-500/20 text-yellow-400'
+                        ? 'bg-orange-500/20 text-orange-400'
                         : 'bg-gray-500/20 text-gray-400'
                     }`}
                   >

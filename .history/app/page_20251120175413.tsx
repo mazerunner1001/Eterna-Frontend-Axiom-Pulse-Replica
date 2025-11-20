@@ -171,7 +171,7 @@ export default function Home() {
 
         {/* Main Content */}
         {/* Main Content Area - Flex Container */}
-        <div className="flex-1 overflow-hidden flex flex-col mx-1.5">
+        <div className="flex-1 overflow-hidden flex flex-col">
           <div className="max-w-[1600px] mx-auto w-full px-4 flex flex-col h-full">
             {/* Spacing section with 3 control buttons - hide on mobile/tablet */}
             <div className="hidden lg:flex items-center justify-start gap-2  shrink-0">

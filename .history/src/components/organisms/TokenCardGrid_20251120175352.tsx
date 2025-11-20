@@ -163,7 +163,7 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
               }`}>
                 <span className="text-gray-600 text-[12px] font-bold">MC</span>
                 <span className={`font-bold text-[15px] transition-colors ${
-                  priceDirection === 'up' ? 'text-yellow-500' : priceDirection === 'down' ? 'text-yellow-500' : 'text-yellow-500'
+                  priceDirection === 'up' ? 'text-yellow-400' : priceDirection === 'down' ? 'text-yellow-400' : 'text-yellow-400'
                 }`}>{formatNumber(token.marketCap)}</span>
               </div>
             </Tooltip>
@@ -252,6 +252,12 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = React.memo(({ title, count, ic
       </h2>
       
       <div className="flex items-center gap-2">
+        {/* Sort/Filter Icon - separate from pill */}
+        <button className="hover:opacity-80 transition-opacity">
+          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+          </svg>
+        </button>
         
         {/* Pill-shaped control bar */}
         <div className="flex items-center gap-0 bg-[#0a0a0a] rounded-full px-3 py-1.5 border border-gray-800/50">

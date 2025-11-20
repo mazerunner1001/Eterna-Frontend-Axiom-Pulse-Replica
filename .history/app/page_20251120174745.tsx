@@ -171,7 +171,7 @@ export default function Home() {
 
         {/* Main Content */}
         {/* Main Content Area - Flex Container */}
-        <div className="flex-1 overflow-hidden flex flex-col mx-1.5">
+        <div className="flex-1 overflow-hidden flex flex-col">
           <div className="max-w-[1600px] mx-auto w-full px-4 flex flex-col h-full">
             {/* Spacing section with 3 control buttons - hide on mobile/tablet */}
             <div className="hidden lg:flex items-center justify-start gap-2  shrink-0">
@@ -413,10 +413,10 @@ export default function Home() {
                 </button>
                 <div className="flex items-center gap-2 ml-1">
                   <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" />
                     </svg>
-                    <span className="text-yellow-500 font-medium">$86.6K</span>
+                    <span className="text-orange-500 font-medium">$86.6K</span>
                   </span>
                   <span className="flex items-center gap-1">
                     <svg className="w-3.5 h-3.5 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
