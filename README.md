@@ -214,45 +214,11 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 - Firefox 88+
 - Safari 14+
 - Mobile browsers with modern CSS support
+## Mobile Responsive Design
 
-## Testing
-
-```bash
-# Run ESLint
-npm run lint
-
-# Type check
-npx tsc --noEmit
-
-# Lighthouse audit
-npx lighthouse http://localhost:3000 --view
-```
-
-## Deployment
-
-**Vercel (Recommended)**
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-**Docker**
-```bash
-docker build -t axiom-trade-clone .
-docker run -p 3000:3000 axiom-trade-clone
-```
-
-**Static Export** (if needed)
-```bash
-# Update next.config.ts: output: 'export'
-npm run build
-# Deploy 'out' directory to any static host
-```
-
-## Known Limitations
+![Desktop View](/Desktop View.png)
+![Tablet View](/Tablet View.png)
+![Mobile View](/Mobile View.png)
 
 1. Mock data only (no real blockchain integration)
 2. Simulated WebSocket (not actual WebSocket connection)
@@ -262,16 +228,14 @@ npm run build
 ## Documentation
 
 - [DOCUMENTATION.md](./DOCUMENTATION.md) - Comprehensive technical documentation
-- [IMPLEMENTATION.md](./IMPLEMENTATION.md) - Implementation details
-- [DEVELOPMENT.md](./DEVELOPMENT.md) - Development notes
 
 ## Performance Metrics
 
 **Lighthouse Scores (Target)**
 - Performance: 90+
-- Accessibility: 85+
+- Accessibility: 90+
 - Best Practices: 100
-- SEO: 60+
+- SEO: 100
 
 **Core Web Vitals**
 - LCP (Largest Contentful Paint): <2.5s
