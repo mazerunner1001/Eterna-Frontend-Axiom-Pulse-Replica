@@ -218,12 +218,9 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 
 ## Mobile Responsive Design
 
-<!-- Container div to group images -->
-<div style="display: flex; justify-content: space-around; gap: 10px;">
-  <img src="desktop-view.png" alt="Desktop View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
-  <img src="tablet-view.png" alt="Tablet View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
-  <img src="mobile-view.png" alt="Mobile View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
-</div>
+| Desktop View | Tablet View | Mobile View |
+|:------------:|:-----------:|:-----------:|
+| ![Desktop View](desktop-view.png) | ![Tablet View](tablet-view.png) | ![Mobile View](mobile-view.png) |
 
 
 ## Documentation
