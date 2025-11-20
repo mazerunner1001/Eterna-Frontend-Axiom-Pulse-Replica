@@ -11,11 +11,12 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: 0, // No retries for faster load
-      staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-      gcTime: 10 * 60 * 1000, // Keep in memory for 10 minutes
+      retry: 0,
+      staleTime: Infinity, // Never mark as stale for optimal mobile performance
+      gcTime: 15 * 60 * 1000, // Keep in memory for 15 minutes
       refetchOnMount: false,
       refetchOnReconnect: false,
+      networkMode: 'offlineFirst', // Prefer cached data
     },
   },
 });

@@ -116,7 +116,7 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
               )}
             </div>
             
-            {/* Age + Icons Row - Simplified for performance */}
+            {/* Age + Icons Row */}
             <div className="flex items-center gap-2.5 text-xs">
               <Tooltip content="Token Age">
                 <span className="text-teal-400 font-semibold text-[13px]">{token.age}</span>
@@ -129,6 +129,16 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
               <Tooltip content="Website">
                 <button className="hover:opacity-80 transition-opacity">
                   <Globe className="w-4 h-4 text-white hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Explorer">
+                <button className="hover:opacity-80 transition-opacity">
+                  <ExternalLink className="w-4 h-4 text-white hover:text-gray-400" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Community">
+                <button className="hover:opacity-80 transition-opacity">
+                  <Users className="w-4 h-4 text-gray-400 hover:text-gray-400" />
                 </button>
               </Tooltip>
               <Tooltip content="Total Holders">
@@ -198,9 +208,11 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
                 <div 
                   className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} hover:bg-black/80 transition-all cursor-help shrink-0`}
                 >
-                  {badge.icon === 0 && <Users className="w-3 h-3" />}
-                  {badge.icon === 1 && <Activity className="w-3 h-3" />}
-                  {badge.icon === 3 && <TrendingDown className="w-3 h-3" />}
+                  {idx === 0 && <Users className="w-3 h-3" />}
+                  {idx === 1 && <Activity className="w-3 h-3" />}
+                  {idx === 3 && <TrendingDown className="w-3 h-3" />}
+                  {idx === 4 && <AlertCircle className="w-3 h-3" />}
+                  {idx === 5 && <Droplets className="w-3 h-3" />}
                   <span className="text-[11px]">{badge.label}</span>
                 </div>
               </Tooltip>

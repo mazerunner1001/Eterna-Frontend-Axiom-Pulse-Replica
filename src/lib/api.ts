@@ -10,12 +10,12 @@ import { generateMockTokens } from './mockData';
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const fetchTokens = async (status?: TokenStatus): Promise<TokenPair[]> => {
-  await delay(100); // Minimal delay for better mobile performance
+  await delay(50); // Minimal delay for better mobile performance
   
-  // Generate consistent token count (10 per category for all devices)
-  const newPairs = generateMockTokens(10, 'new');
-  const finalStretch = generateMockTokens(10, 'final-stretch');
-  const migrated = generateMockTokens(10, 'migrated');
+  // Generate fewer tokens for better mobile performance (5 per category = 15 total)
+  const newPairs = generateMockTokens(5, 'new');
+  const finalStretch = generateMockTokens(5, 'final-stretch');
+  const migrated = generateMockTokens(5, 'migrated');
   
   // Combine all tokens
   return [...newPairs, ...finalStretch, ...migrated];

@@ -25,16 +25,13 @@ export default function Home() {
     queryFn: () => fetchTokens(),
   });
 
-  // Disable WebSocket initially for better performance
-  const [wsEnabled, setWsEnabled] = React.useState(false);
-  
-  // Enable WebSocket after initial render
+  // Enable WebSocket mock after initial render for better performance
   React.useEffect(() => {
-    const timer = setTimeout(() => setWsEnabled(true), 1500);
+    const timer = setTimeout(() => {
+      useWebSocketMock(true);
+    }, 2000); // Delay WebSocket by 2 seconds
     return () => clearTimeout(timer);
   }, []);
-  
-  useWebSocketMock(wsEnabled);
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
