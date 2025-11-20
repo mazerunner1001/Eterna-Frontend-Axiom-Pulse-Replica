@@ -218,15 +218,13 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 
 ## Mobile Responsive Design
 
-![Desktop View](Desktop View.png) 
-![Tablet View](Tablet View.png) 
-![Mobile View](Mobile View.png)
+<!-- Container div to group images -->
+<div style="display: flex; justify-content: space-around; gap: 10px;">
+  <img src="Desktop View.png" alt="Desktop View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+  <img src="Tablet View.png" alt="Tablet View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+  <img src="Mobile View.png" alt="Mobile View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+</div>
 
-
-1. Mock data only (no real blockchain integration)
-2. Simulated WebSocket (not actual WebSocket connection)
-3. No persistence (data resets on reload)
-4. Client-side rendering for dynamic content
 
 ## Documentation
 
