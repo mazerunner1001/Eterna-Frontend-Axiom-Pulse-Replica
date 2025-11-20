@@ -50,11 +50,9 @@ export const Modal: React.FC<ModalProps> = React.memo(({
               {title}
             </DialogPrimitive.Title>
           )}
-          {description && (
-            <DialogPrimitive.Description className="text-sm text-gray-400 mb-4">
-              {description}
-            </DialogPrimitive.Description>
-          )}
+          <DialogPrimitive.Description className={description ? "text-sm text-gray-400 mb-4" : "sr-only"}>
+            {description || "Dialog content"}
+          </DialogPrimitive.Description>
           <div className="mt-4">{children}</div>
           <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-400">
             <X className="h-4 w-4 text-gray-400" />

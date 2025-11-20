@@ -514,7 +514,7 @@ const TokenColumn: React.FC<{
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
+    <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col flex-1 min-h-0 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
       <ColumnHeader title={title} count={totalCount} icon={icon} />
       
       <div 
@@ -567,55 +567,14 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading,
 
   return (
     <div className="flex-1 overflow-hidden min-h-0 mb-6 flex flex-col">
-      {/* Mobile Tab Navigation (md to lg: inside grid, sm: outside in parent) */}
-      <div className="hidden md:flex lg:hidden gap-2 bg-[#0a0a0a] p-2 rounded-t-lg border-b border-gray-800/50 shrink-0">
-        <button 
-          onClick={() => setActiveTab('new')}
-          className={`flex-1 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors ${
-            activeTab === 'new' 
-              ? 'bg-[#1a1a1a] text-white border border-gray-700' 
-              : 'text-gray-400 hover:text-white hover:bg-[#151515]'
-          }`}
-        >
-          New Pairs
-        </button>
-        <button 
-          onClick={() => setActiveTab('final-stretch')}
-          className={`flex-1 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors ${
-            activeTab === 'final-stretch' 
-              ? 'bg-[#1a1a1a] text-white border border-gray-700' 
-              : 'text-gray-400 hover:text-white hover:bg-[#151515]'
-          }`}
-        >
-          Final Stretch
-        </button>
-        <button 
-          onClick={() => setActiveTab('migrated')}
-          className={`flex-1 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors ${
-            activeTab === 'migrated' 
-              ? 'bg-[#1a1a1a] text-white border border-gray-700' 
-              : 'text-gray-400 hover:text-white hover:bg-[#151515]'
-          }`}
-        >
-          Migrated
-        </button>
-      </div>
-
-      {/* Mobile: Single Column with Tab Content (md to lg) */}
-      <div className="hidden md:block lg:hidden flex-1 overflow-hidden min-h-0">
-        {activeTab === 'new' && <TokenColumn status="new" title="New Pairs" icon={<Zap className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
-        {activeTab === 'final-stretch' && <TokenColumn status="final-stretch" title="Final Stretch" icon={<Flame className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
-        {activeTab === 'migrated' && <TokenColumn status="migrated" title="Migrated" icon={<CheckCircle2 className="w-4 h-4 text-green-400" />} globalSortBy={globalSortBy} />}
-      </div>
-      
-      {/* Small screens: Single Column (< md) - tabs are in parent */}
-      <div className="md:hidden flex-1 overflow-hidden min-h-0">
+      {/* Mobile/Tablet: Single Column (< lg - below 1024px) - tabs are in parent */}
+      <div className="lg:hidden flex flex-col flex-1 overflow-hidden min-h-0">
         {mobileTab === 'new' && <TokenColumn status="new" title="New Pairs" icon={<Zap className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
         {mobileTab === 'final-stretch' && <TokenColumn status="final-stretch" title="Final Stretch" icon={<Flame className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
         {mobileTab === 'migrated' && <TokenColumn status="migrated" title="Migrated" icon={<CheckCircle2 className="w-4 h-4 text-green-400" />} globalSortBy={globalSortBy} />}
       </div>
 
-      {/* Desktop: 3 Columns Side by Side with Progressive Loading */}
+      {/* Desktop: 3 Columns Side by Side with Progressive Loading (lg and above - 1024px+) */}
       <div className="hidden lg:grid grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg">
         <TokenColumn 
           status="new" 

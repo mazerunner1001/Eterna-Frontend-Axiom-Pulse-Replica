@@ -329,8 +329,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Mobile Tab Navigation for very small screens (<640px) */}
-            <div className="md:hidden flex gap-2 mb-3 shrink-0">
+            {/* Mobile/Tablet Tab Navigation (below 1024px) */}
+            <div className="lg:hidden flex gap-2 mb-3 shrink-0">
               <button 
                 onClick={() => setMobileTab('new')}
                 className={`flex-1 px-3 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors ${
