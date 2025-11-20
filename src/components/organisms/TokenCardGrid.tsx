@@ -6,7 +6,9 @@
 'use client';
 
 import React from 'react';
-import { TokenPair } from '@/types';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { TokenPair, TokenStatus } from '@/types';
+import { fetchTokensBatch } from '@/lib/api';
 import { 
   TrendingDown, 
   Users, 
@@ -20,8 +22,11 @@ import {
   AlertCircle,
   Droplets
 } from 'lucide-react';
-import { Tooltip } from '../molecules/Tooltip';
-import { useAppSelector } from '@/store/hooks';
+import { Tooltip, Popover, Modal } from '../molecules';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { selectToken } from '@/store/slices/tokensSlice';
+import { toggleModal } from '@/store/slices/uiSlice';
+import { RefreshCw } from 'lucide-react';
 
 interface TokenCardGridProps {
   tokens: TokenPair[];
@@ -50,6 +55,7 @@ const formatPrice = (price: number) => {
 };
 
 const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
+  const dispatch = useAppDispatch();
   const priceUpdate = useAppSelector((state) => state.tokens.priceUpdates[token.id]);
   const isPositive = token.priceChange24h >= 0;
   
@@ -75,25 +81,38 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
   ];
 
   return (
-    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] active:bg-[#1a1a1a] transition-all cursor-pointer px-2 sm:px-4 py-2 flex gap-2 sm:gap-2.5 group card-shimmer">
+    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] active:bg-[#1a1a1a] transition-all px-2 sm:px-4 py-2 flex gap-2 sm:gap-2.5 group card-shimmer">
       {/* Left Column: Image + Username (takes full height) */}
       <div className="shrink-0 flex flex-col justify-between">
-        <div className="relative">
-          <img 
-            src={token.image} 
-            alt={token.symbol}
-            width="76"
-            height="76"
-            loading="lazy"
-            decoding="async"
-            className="w-[60px] h-[60px] sm:w-[76px] sm:h-[76px] rounded-md object-cover border-2 border-green-500 group-hover:border-green-400 transition-colors"
-          />
-          <Tooltip content="Verified Token">
-            <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
-              <Music2 className="w-2.5 h-2.5 text-white" />
+        <Popover
+          content={
+            <div className="p-2">
+              <img 
+                src={token.image} 
+                alt={token.symbol}
+                className="w-[200px] h-[200px] rounded-lg object-cover"
+              />
+              <p className="text-white text-sm font-semibold mt-2 text-center">{token.symbol}</p>
             </div>
-          </Tooltip>
-        </div>
+          }
+        >
+          <div className="relative cursor-pointer">
+            <img 
+              src={token.image} 
+              alt={token.symbol}
+              width="76"
+              height="76"
+              loading="lazy"
+              decoding="async"
+              className="w-[60px] h-[60px] sm:w-[76px] sm:h-[76px] rounded-md object-cover border-2 border-green-500 hover:border-green-300 transition-colors"
+            />
+            <Tooltip content="Verified Token">
+              <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
+                <Music2 className="w-2.5 h-2.5 text-white" />
+              </div>
+            </Tooltip>
+          </div>
+        </Popover>
         <div className="text-gray-500 text-[11px] text-center mt-0.5">
           {token.symbol.slice(0, 4)}...pump
         </div>
@@ -232,6 +251,24 @@ interface ColumnHeaderProps {
 
 const ColumnHeader: React.FC<ColumnHeaderProps> = React.memo(({ title, count, icon }) => {
   const [activeTab, setActiveTab] = React.useState<'P1' | 'P2' | 'P3'>('P1');
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [selectedProtocols, setSelectedProtocols] = React.useState<string[]>(['Pump']);
+  const [selectedTokens, setSelectedTokens] = React.useState<string[]>(['SOL']);
+
+  const protocols = ['Pump', 'Bags', 'Daos.fun', 'Believe', 'Boop', 'Raydium', 'Mayhem', 'Moonshot', 'Candle', 'Jupiter Studio', 'LaunchLab', 'Meteora AMM', 'Orca'];
+  const quoteTokens = ['SOL', 'USDC', 'USD1'];
+
+  const toggleProtocol = (protocol: string) => {
+    setSelectedProtocols(prev => 
+      prev.includes(protocol) ? prev.filter(p => p !== protocol) : [...prev, protocol]
+    );
+  };
+
+  const toggleToken = (token: string) => {
+    setSelectedTokens(prev => 
+      prev.includes(token) ? prev.filter(t => t !== token) : [...prev, token]
+    );
+  };
 
   return (
     <div className="flex items-center justify-between px-3 py-2.5 bg-[#111111] border-b border-r border-[#1f2937]/50">
@@ -303,9 +340,12 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = React.memo(({ title, count, ic
           </button>
         </div>
 
-          {/* Right section: Settings icon with notification dot */}
+          {/* Right section: Settings icon with blue dot */}
           <div className="flex items-center gap-2">
-            <button className="relative hover:opacity-80 transition-opacity">
+            <button 
+              onClick={() => setIsFilterOpen(true)}
+              className="relative hover:opacity-80 transition-opacity"
+            >
               <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
               </svg>
@@ -315,171 +355,215 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = React.memo(({ title, count, ic
           </div>
         </div>
       </div>
+
+      {/* Filter Modal */}
+      <Modal
+        open={isFilterOpen}
+        onOpenChange={setIsFilterOpen}
+        title="Filters"
+        size="lg"
+      >
+        <div className="space-y-4">
+          {/* Status Tabs */}
+          <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
+            <button className="px-3 py-1.5 bg-gray-800 text-white rounded-md text-sm font-semibold">
+              New Pairs <span className="ml-1 text-gray-400">2</span>
+            </button>
+            <button className="px-3 py-1.5 text-gray-400 rounded-md text-sm font-semibold hover:bg-gray-800">
+              Final Stretch <span className="ml-1">3</span>
+            </button>
+            <button className="px-3 py-1.5 text-gray-400 rounded-md text-sm font-semibold hover:bg-gray-800">
+              Migrated <span className="ml-1">3</span>
+            </button>
+            <button className="ml-auto hover:opacity-80">
+              <RefreshCw className="w-4 h-4 text-gray-400" />
+            </button>
+          </div>
+
+          {/* Protocols Section */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white font-semibold">Protocols</h3>
+              <button className="text-sm text-blue-400 hover:text-blue-300">Select All</button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {protocols.map((protocol) => (
+                <button
+                  key={protocol}
+                  onClick={() => toggleProtocol(protocol)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+                    selectedProtocols.includes(protocol)
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  {protocol}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Quote Tokens Section */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white font-semibold">Quote Tokens</h3>
+              <button className="text-sm text-blue-400 hover:text-blue-300">Unselect All</button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {quoteTokens.map((token) => (
+                <button
+                  key={token}
+                  onClick={() => toggleToken(token)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+                    selectedTokens.includes(token)
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  {token}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Search Keywords */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Search Keywords</label>
+              <input
+                type="text"
+                placeholder="keyword1, keyword2..."
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white text-sm placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Exclude Keywords</label>
+              <input
+                type="text"
+                placeholder="keyword1, keyword2..."
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white text-sm placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Bottom Actions */}
+          <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+            <div className="flex gap-2">
+              <button className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm font-semibold transition-colors">
+                Import
+              </button>
+              <button className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm font-semibold transition-colors">
+                Export
+              </button>
+            </div>
+            <button 
+              onClick={() => setIsFilterOpen(false)}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-bold transition-colors"
+            >
+              Apply All
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 });
 
 ColumnHeader.displayName = 'ColumnHeader';
 
-export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading, globalSortBy = 'mc', mobileTab = 'new' }) => {
-  const [activeTab, setActiveTab] = React.useState<'new' | 'final-stretch' | 'migrated'>('new');
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-  const scrollContainerRefSm = React.useRef<HTMLDivElement>(null);
+// Column component with infinite loading
+const TokenColumn: React.FC<{
+  status: TokenStatus;
+  title: string;
+  icon: React.ReactNode;
+  globalSortBy: 'mc' | 'volume' | 'price' | 'age';
+}> = React.memo(({ status, title, icon, globalSortBy }) => {
+  const listRef = React.useRef<any>(null);
   
-  // Reset scroll position when tab changes
-  React.useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = 0;
-    }
-  }, [activeTab]);
-  
-  // Reset scroll position for small screens when mobileTab changes
-  React.useEffect(() => {
-    if (scrollContainerRefSm.current) {
-      scrollContainerRefSm.current.scrollTop = 0;
-    }
-  }, [mobileTab]);
-  
-  // Sort function
-  const sortTokens = (tokens: TokenPair[], sortKey: 'mc' | 'volume' | 'price' | 'age') => {
-    return [...tokens].sort((a, b) => {
-      switch (sortKey) {
-        case 'mc':
-          return b.marketCap - a.marketCap;
-        case 'volume':
-          return b.volume24h - a.volume24h;
-        case 'price':
-          return b.price - a.price;
-        case 'age':
-          // Parse age string (e.g., "5m", "2h", "1d")
-          const parseAge = (age: string) => {
-            const value = parseInt(age);
-            const unit = age.slice(-1);
-            if (unit === 's') return value;
-            if (unit === 'm') return value * 60;
-            if (unit === 'h') return value * 3600;
-            if (unit === 'd') return value * 86400;
-            return 0;
-          };
-          return parseAge(a.age) - parseAge(b.age);
-        default:
-          return 0;
-      }
-    });
-  };
-  
-  // Divide tokens into three categories and sort them
-  const newPairs = sortTokens(tokens.filter(t => t.status === 'new'), globalSortBy);
-  const finalStretch = sortTokens(tokens.filter(t => t.status === 'final-stretch'), globalSortBy);
-  const migrated = sortTokens(tokens.filter(t => t.status === 'migrated'), globalSortBy);
+  // Infinite query for this column
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['tokens', status, globalSortBy],
+    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, 20),
+    getNextPageParam: (lastPage, pages) => 
+      lastPage.hasMore ? pages.length : undefined,
+    initialPageParam: 0,
+  });
 
-  if (isLoading) {
-    return (
-      <div className="flex-1 overflow-hidden min-h-0 mb-6 flex flex-col">
-        {/* Mobile Tabs - Loading State (md to lg: inside) */}
-        <div className="hidden md:flex lg:hidden gap-2 bg-[#0a0a0a] p-2 rounded-t-lg border-b border-gray-800/50 shrink-0">
-          <button className="flex-1 px-4 py-2 bg-[#1a1a1a] text-white rounded-lg font-semibold text-sm border border-gray-700">New Pairs</button>
-          <button className="flex-1 px-4 py-2 text-gray-400 rounded-lg font-semibold text-sm">Final Stretch</button>
-          <button className="flex-1 px-4 py-2 text-gray-400 rounded-lg font-semibold text-sm">Migrated</button>
-        </div>
-        
-        {/* Medium screens: Single column with tabs */}
-        <div className="hidden md:block lg:hidden flex-1 overflow-hidden min-h-0">
-          <div className="bg-[#111111] border border-[#1f2937]/50 flex flex-col h-full rounded-b-lg">
-            <div className="flex-1 overflow-hidden space-y-0">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
-                  <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <div className="h-4 w-32 bg-[#222222] rounded" />
-                      <div className="h-3 w-48 bg-[#222222] rounded" />
-                    </div>
-                    <div className="flex gap-2">
-                      {Array.from({ length: 5 }).map((_, j) => (
-                        <div key={j} className="h-6 w-12 bg-[#222222] rounded-full" />
-                      ))}
-                    </div>
-                  </div>
+  // Flatten all pages into single array
+  const tokens = React.useMemo(
+    () => data?.pages.flatMap((page) => page.tokens) ?? [],
+    [data]
+  );
+
+  const totalCount = data?.pages[0]?.total ?? 0;
+
+  // Handle scroll to load more
+  const handleScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    
+    // Load more when scrolled to bottom 200px
+    if (scrollHeight - scrollTop - clientHeight < 200 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  return (
+    <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
+      <ColumnHeader title={title} count={totalCount} icon={icon} />
+      
+      <div 
+        className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
+        onScroll={handleScroll}
+      >
+        {isLoading ? (
+          // Loading skeleton
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
+              <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
+              <div className="flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="h-4 w-32 bg-[#222222] rounded" />
+                  <div className="h-3 w-48 bg-[#222222] rounded" />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        
-        {/* Small screens: Single column */}
-        <div className="md:hidden flex-1 overflow-hidden min-h-0">
-          <div className="bg-[#111111] border border-[#1f2937]/50 flex flex-col h-full rounded-lg">
-            <div className="flex-1 overflow-hidden space-y-0">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
-                  <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <div className="h-4 w-32 bg-[#222222] rounded" />
-                      <div className="h-3 w-48 bg-[#222222] rounded" />
-                    </div>
-                    <div className="flex gap-2">
-                      {Array.from({ length: 5 }).map((_, j) => (
-                        <div key={j} className="h-6 w-12 bg-[#222222] rounded-full" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        
-        {/* Desktop: 3 Columns */}
-        <div className="hidden lg:grid grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 rounded-lg">
-          {Array.from({ length: 3 }).map((_, colIdx) => (
-            <div key={colIdx} className={`bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 ${colIdx === 0 ? 'rounded-tl-lg rounded-bl-lg' : colIdx === 2 ? 'rounded-tr-lg rounded-br-lg' : ''}`}>
-              <div className="h-16 bg-[#1a1a1a] border-b border-[#1f2937]/50 animate-pulse" />
-              <div className="flex-1 overflow-hidden space-y-0">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
-                    <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div className="space-y-2">
-                        <div className="h-4 w-32 bg-[#222222] rounded" />
-                        <div className="h-3 w-48 bg-[#222222] rounded" />
-                      </div>
-                      <div className="flex gap-2">
-                        {Array.from({ length: 5 }).map((_, j) => (
-                          <div key={j} className="h-6 w-12 bg-[#222222] rounded-full" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
-          ))}
-        </div>
+          ))
+        ) : (
+          <>
+            {tokens.map((token) => (
+              <TokenCard key={token.id} token={token} />
+            ))}
+            
+            {/* Loading more indicator */}
+            {isFetchingNextPage && (
+              <div className="p-4 text-center">
+                <div className="inline-block w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+            
+            {/* End indicator */}
+            {!hasNextPage && tokens.length > 0 && (
+              <div className="p-3 text-center text-gray-500 text-xs">
+                All {totalCount} tokens loaded
+              </div>
+            )}
+          </>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+});
 
-  // Get active tokens for medium screens (md-lg)
-  const getActiveTokensMd = () => {
-    switch (activeTab) {
-      case 'new': return newPairs;
-      case 'final-stretch': return finalStretch;
-      case 'migrated': return migrated;
-      default: return newPairs;
-    }
-  };
-  
-  // Get active tokens for small screens (<md)
-  const getActiveTokensSm = () => {
-    switch (mobileTab) {
-      case 'new': return newPairs;
-      case 'final-stretch': return finalStretch;
-      case 'migrated': return migrated;
-      default: return newPairs;
-    }
-  };
+TokenColumn.displayName = 'TokenColumn';
+
+export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading, globalSortBy = 'mc', mobileTab = 'new' }) => {
+  const [activeTab, setActiveTab] = React.useState<'new' | 'final-stretch' | 'migrated'>('new');
 
   return (
     <div className="flex-1 overflow-hidden min-h-0 mb-6 flex flex-col">
@@ -519,69 +603,38 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading,
 
       {/* Mobile: Single Column with Tab Content (md to lg) */}
       <div className="hidden md:block lg:hidden flex-1 overflow-hidden min-h-0">
-        <div className="bg-[#111111] border border-[#1f2937]/50 flex flex-col h-full rounded-b-lg">
-          <div ref={scrollContainerRef} className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
-            {getActiveTokensMd().map((token) => (
-              <TokenCard key={token.id} token={token} />
-            ))}
-          </div>
-        </div>
+        {activeTab === 'new' && <TokenColumn status="new" title="New Pairs" icon={<Zap className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
+        {activeTab === 'final-stretch' && <TokenColumn status="final-stretch" title="Final Stretch" icon={<Flame className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
+        {activeTab === 'migrated' && <TokenColumn status="migrated" title="Migrated" icon={<CheckCircle2 className="w-4 h-4 text-green-400" />} globalSortBy={globalSortBy} />}
       </div>
       
       {/* Small screens: Single Column (< md) - tabs are in parent */}
       <div className="md:hidden flex-1 overflow-hidden min-h-0">
-        <div className="bg-[#111111] border border-[#1f2937]/50 flex flex-col h-full rounded-lg">
-          <div ref={scrollContainerRefSm} className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
-            {getActiveTokensSm().map((token) => (
-              <TokenCard key={token.id} token={token} />
-            ))}
-          </div>
-        </div>
+        {mobileTab === 'new' && <TokenColumn status="new" title="New Pairs" icon={<Zap className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
+        {mobileTab === 'final-stretch' && <TokenColumn status="final-stretch" title="Final Stretch" icon={<Flame className="w-4 h-4 text-yellow-400" />} globalSortBy={globalSortBy} />}
+        {mobileTab === 'migrated' && <TokenColumn status="migrated" title="Migrated" icon={<CheckCircle2 className="w-4 h-4 text-green-400" />} globalSortBy={globalSortBy} />}
       </div>
 
-      {/* Desktop: 3 Columns Side by Side */}
+      {/* Desktop: 3 Columns Side by Side with Progressive Loading */}
       <div className="hidden lg:grid grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg">
-        {/* New Pairs Column */}
-        <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 rounded-tl-lg rounded-bl-lg">
-          <ColumnHeader 
-            title="New Pairs" 
-            count={newPairs.length}
-            icon={<Zap className="w-4 h-4 text-yellow-400" />}
-          />
-          <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
-            {newPairs.map((token) => (
-              <TokenCard key={token.id} token={token} />
-            ))}
-          </div>
-        </div>
-
-        {/* Final Stretch Column */}
-        <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0">
-          <ColumnHeader 
-            title="Final Stretch" 
-            count={finalStretch.length}
-            icon={<Flame className="w-4 h-4 text-yellow-400" />}
-          />
-          <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
-            {finalStretch.map((token) => (
-              <TokenCard key={token.id} token={token} />
-            ))}
-          </div>
-        </div>
-
-        {/* Migrated Column */}
-        <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 rounded-tr-lg rounded-br-lg">
-          <ColumnHeader 
-            title="Migrated" 
-            count={migrated.length}
-            icon={<CheckCircle2 className="w-4 h-4 text-green-400" />}
-          />
-          <div className="overflow-y-auto scrollbar-thin flex-1 space-y-0">
-            {migrated.map((token) => (
-              <TokenCard key={token.id} token={token} />
-            ))}
-          </div>
-        </div>
+        <TokenColumn 
+          status="new" 
+          title="New Pairs" 
+          icon={<Zap className="w-4 h-4 text-yellow-400" />} 
+          globalSortBy={globalSortBy}
+        />
+        <TokenColumn 
+          status="final-stretch" 
+          title="Final Stretch" 
+          icon={<Flame className="w-4 h-4 text-yellow-400" />} 
+          globalSortBy={globalSortBy}
+        />
+        <TokenColumn 
+          status="migrated" 
+          title="Migrated" 
+          icon={<CheckCircle2 className="w-4 h-4 text-green-400" />} 
+          globalSortBy={globalSortBy}
+        />
       </div>
     </div>
   );

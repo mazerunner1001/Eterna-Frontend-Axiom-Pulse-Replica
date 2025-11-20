@@ -1,378 +1,313 @@
-# 🚀 Axiom Trade Clone - Token Discovery Platform
+# Axiom Trade Clone
 
-A pixel-perfect, high-performance replica of Axiom Trade's token discovery table built with modern web technologies.
+A high-performance token discovery platform replicating Axiom Trade's Pulse page. Built with Next.js 16, TypeScript, and modern web technologies.
 
-![Lighthouse Score](https://img.shields.io/badge/Lighthouse-90%2B-success)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)
-![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black)
+## Quick Start
 
-## 📺 Demo
-
-**Live Deployment:** [View on Vercel](https://your-deployment-url.vercel.app)
-
-**Video Walkthrough:** [Watch on YouTube](https://youtube.com/your-video-link)
-
----
-
-## ✨ Core Features
-
-### 🎯 Token Discovery
-- **Three Categories:** New Pairs, Final Stretch, and Migrated tokens
-- **Real-Time Updates:** WebSocket mock with 2-second price updates
-- **Smooth Transitions:** Color-coded price changes with flash animations
-  - 🟢 Green flash for price increases
-  - 🔴 Red flash for price decreases
-
-### 🔄 Sorting & Filtering
-- **Multi-Criteria Sorting:**
-  - Market Cap (MC)
-  - 24h Volume (V)
-  - Current Price (P)
-  - Token Age
-- **Independent Sorting:** Each column maintains its own sort preference
-
-### 📱 Responsive Design
-- **Desktop (≥1024px):** Three-column layout with independent scrolling
-- **Mobile/Tablet (<1024px):** Tab-based navigation
-- **Minimum Width:** Optimized down to 320px
-- **Touch Optimized:** Smooth scrolling and tap interactions
-
-### 🎨 UI Components
-- ✅ **Tooltips:** Radix UI-powered accessible tooltips
-- ✅ **Modals:** Token detail modal with smooth animations
-- ✅ **Popovers:** Context-aware information display
-- ✅ **Loading States:**
-  - Skeleton screens
-  - Shimmer effects
-  - Progressive loading
-- ✅ **Error Boundaries:** Graceful error handling
-
----
-
-## 🏗️ Technical Stack
-
-### Core Technologies
-```json
-{
-  "framework": "Next.js 16.0.3 (App Router)",
-  "language": "TypeScript (strict mode)",
-  "styling": "Tailwind CSS 4.1.17",
-  "state": "Redux Toolkit + React Query",
-  "components": "Radix UI + Custom Atomic Components"
-}
-```
-
-### Architecture
-```
-src/
-├── components/
-│   ├── atoms/          # Button, Badge, Avatar
-│   ├── molecules/      # Tooltip, Modal, Popover
-│   ├── organisms/      # TokenTable, TokenCardGrid
-│   └── providers/      # Redux, React Query
-├── hooks/
-│   └── useWebSocketMock.ts
-├── lib/
-│   ├── api.ts         # Data fetching
-│   └── mockData.ts    # Token generation
-├── store/
-│   ├── slices/        # Redux slices
-│   └── hooks.ts       # Typed hooks
-├── types/             # TypeScript definitions
-└── utils/             # Formatters, helpers
-```
-
-### Performance Optimizations
-- ✅ **React.memo:** Memoized TokenCard and ColumnHeader
-- ✅ **Code Splitting:** Dynamic import of TokenDetailModal
-- ✅ **Image Optimization:** Lazy loading with async decoding
-- ✅ **Font Strategy:** display: 'swap' for faster FCP
-- ✅ **CSS Containment:** GPU-accelerated animations
-- ✅ **React Query Caching:** 5-minute stale time, 10-minute gc time
-
----
-
-## 📊 Lighthouse Scores
-
-### Desktop
-- 🟢 **Performance:** 90+
-- 🟢 **Accessibility:** 89
-- 🟢 **Best Practices:** 100
-- 🟢 **SEO:** 63
-
-### Mobile
-- 🟢 **Performance:** 90+ (Target achieved)
-- 🟢 **Accessibility:** 84+
-- 🟢 **Best Practices:** 100
-- 🟢 **SEO:** 63+
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
 ```bash
-Node.js >= 18.17.0
-npm >= 9.6.7
-```
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/axiom-trade-clone.git
-cd axiom-trade-clone
-
 # Install dependencies
 npm install
 
-# Start development server
+# Run development server
 npm run dev
-```
 
-### Build for Production
-```bash
-# Create optimized build
+# Build for production
 npm run build
 
 # Start production server
 npm start
 ```
 
-### Environment Setup
-No environment variables required - fully functional out of the box!
+Open [http://localhost:3000](http://localhost:3000)
 
----
+## Features
 
-## 📸 Screenshots
+**Token Discovery**
+- Three categories: New Pairs, Final Stretch, Migrated
+- Real-time price updates every 2 seconds
+- Smooth color transitions on price changes
+- Progressive loading (100 tokens per column)
 
-### Desktop View - Three Columns
-![Desktop View](./screenshots/desktop-view.png)
-*Independent scrolling columns with real-time updates*
+**Responsive Design**
+- Desktop (1024px+): Three-column layout with independent scrolling
+- Tablet (640-1024px): Tab navigation inside grid
+- Mobile (<640px): Tab navigation outside grid
+- Optimized down to 320px width
 
-### Mobile View - Tab Navigation
-<div style="display: flex; gap: 10px;">
-  <img src="./screenshots/mobile-new-pairs.png" width="250" alt="New Pairs Tab" />
-  <img src="./screenshots/mobile-final-stretch.png" width="250" alt="Final Stretch Tab" />
-  <img src="./screenshots/mobile-migrated.png" width="250" alt="Migrated Tab" />
-</div>
+**Interactive Components**
+- Tooltips (Radix UI)
+- Filter modal with settings
+- Image preview popover
+- Sorting by market cap, volume, price, age
 
-### Responsive Breakpoints
-| Width | Layout |
-|-------|--------|
-| 320px - 767px | Mobile (Single column, tabs) |
-| 768px - 1023px | Tablet (Single column, tabs) |
-| 1024px+ | Desktop (Three columns) |
+**Performance**
+- Lighthouse score: 90+ on mobile and desktop
+- React Query infinite scroll
+- Memoized components
+- Lazy image loading
+- Delayed WebSocket initialization
 
----
+## Technical Stack
 
-## 🎯 Features Checklist
+**Core**
+- Next.js 16.0.3 (App Router, Turbopack)
+- TypeScript 5.x (strict mode)
+- Tailwind CSS 4.1.17
+- Redux Toolkit
+- TanStack Query v5
+- Radix UI
 
-### Assignment Requirements
-- ✅ All token columns (New Pairs, Final Stretch, Migrated)
-- ✅ Tooltips using Radix UI
-- ✅ Modal implementation
-- ✅ Popover components
-- ✅ Sorting functionality (MC, Volume, Price, Age)
-- ✅ Hover effects and click actions
-- ✅ Real-time price updates (WebSocket mock)
-- ✅ Smooth color transitions
-- ✅ Loading states (skeleton, shimmer, progressive)
-- ✅ Error boundaries
-- ✅ Next.js 16+ App Router
-- ✅ TypeScript strict mode
-- ✅ Tailwind CSS
-- ✅ Redux Toolkit for state management
-- ✅ React Query for data fetching
-- ✅ Radix UI components
-- ✅ Memoized components
-- ✅ Atomic architecture
-- ✅ Lighthouse score ≥ 90
-- ✅ Responsive down to 320px
-- ✅ Clean code structure
-- ✅ GitHub repository
-- ✅ Vercel deployment
-- 🔄 YouTube video (In Progress)
+**Architecture**
+- Atomic design pattern (atoms, molecules, organisms)
+- Type-safe Redux with RTK
+- Progressive data loading
+- Client-side rendering with SSR-ready structure
 
----
+## Project Structure
 
-## 🧪 Testing
+```
+src/
+├── components/
+│   ├── atoms/          # Button, Badge, Avatar, IconButton
+│   ├── molecules/      # Tooltip, Modal, Popover
+│   ├── organisms/      # TokenCardGrid, TokenTable
+│   └── providers/      # Redux, React Query
+├── hooks/
+│   └── useWebSocketMock.ts
+├── lib/
+│   ├── api.ts         # Data fetching with pagination
+│   └── mockData.ts    # Token generation
+├── store/
+│   ├── slices/        # Redux state slices
+│   └── hooks.ts       # Typed Redux hooks
+├── types/             # TypeScript definitions
+└── utils/             # Formatters and helpers
 
-### Performance Testing
-```bash
-# Run Lighthouse CI
-npm run lighthouse
-
-# Test on mobile device
-npm run dev
-# Open Chrome DevTools > Toggle Device Toolbar > Test on various devices
+app/
+├── layout.tsx         # Root layout with providers
+├── page.tsx           # Main page component
+└── globals.css        # Global styles and optimizations
 ```
 
-### Visual Regression
-```bash
-# Install Playwright
-npm install --save-dev @playwright/test
+## Key Implementation Details
 
-# Run visual comparison
-npx playwright test
-```
+**Infinite Scroll**
+- Initial load: 60 tokens (20 per column)
+- Progressive loading: 20 tokens per batch
+- Total capacity: 100 tokens per column
+- Scroll trigger: 200px from bottom
 
----
-
-## 📝 Code Quality
-
-### TypeScript
-- Strict mode enabled
-- Comprehensive type definitions
-- No `any` types (except in edge cases)
-- Full IntelliSense support
-
-### Component Structure
+**Unique ID Generation**
 ```typescript
-// Example: Memoized, typed, documented
-const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
-  // Redux state for price updates
-  const priceUpdate = useAppSelector(state => state.tokens.priceUpdates[token.id]);
-  
-  // Component logic...
-  
-  return (/* JSX */);
-});
-
-TokenCard.displayName = 'TokenCard';
+// Each status gets unique ID range to prevent conflicts
+statusOffsets = {
+  'new': 0,           // 0-999
+  'final-stretch': 1000,  // 1000-1999
+  'migrated': 2000,   // 2000-2999
+}
 ```
 
-### State Management
-- **Redux Toolkit:** UI state, price updates, token selection
-- **React Query:** Server state, caching, refetching
-- **Local State:** Component-specific interactions
+**Real-Time Updates**
+- WebSocket simulation with setInterval
+- Updates 2-5 random tokens every 2 seconds
+- Dual state: Redux (UI) + React Query (cache)
+- Price changes: up to ±5% per update
 
----
+**Memoization Strategy**
+- TokenCard: React.memo on token prop
+- TokenColumn: React.memo on status and sortBy
+- Scroll handlers: useCallback with dependencies
+- Derived values: useMemo for token arrays
 
-## 🔧 Development
+## Performance Optimizations
 
-### Folder Structure
-```
-axiom-trade-clone/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   └── globals.css        # Global styles
-├── src/
-│   ├── components/
-│   │   ├── atoms/         # Reusable primitives
-│   │   ├── molecules/     # Composite components
-│   │   ├── organisms/     # Complex features
-│   │   └── providers/     # Context providers
-│   ├── hooks/             # Custom hooks
-│   ├── lib/               # Utilities & API
-│   ├── store/             # Redux store
-│   ├── types/             # TypeScript types
-│   └── utils/             # Helper functions
-├── public/                # Static assets
-└── tests/                 # Test files
-```
+**Bundle Size**
+- Code splitting with dynamic imports
+- Tree-shaking for Lucide icons
+- CSS minification
+- No source maps in production
 
-### Key Patterns
-1. **Atomic Design:** atoms → molecules → organisms
-2. **DRY Principles:** Shared utilities and components
-3. **Performance First:** Memoization, lazy loading, code splitting
-4. **Type Safety:** Comprehensive TypeScript coverage
-5. **Accessibility:** ARIA labels, keyboard navigation
+**Rendering**
+- React.memo on expensive components
+- CSS containment for isolated repaints
+- GPU-accelerated animations
+- content-visibility for off-screen cards
 
----
+**Data Management**
+- React Query cache: 10 minutes
+- Stale time: Infinity (no auto-refetch)
+- Delayed WebSocket start (1.5s after mount)
+- Pagination for reduced initial load
 
-## 🎨 Design Specifications
+**Images**
+- Lazy loading with loading="lazy"
+- Async decoding
+- Explicit width/height to prevent CLS
+- AVIF and WebP formats
 
-### Colors
-```css
---background: #0a0a0a;
---card-bg: #111111;
---border: #1f2937;
---text-primary: #ffffff;
---text-secondary: #9ca3af;
---accent-blue: #3b82f6;
---accent-green: #10b981;
---accent-red: #ef4444;
-```
+**Fonts**
+- Inter font with display: swap
+- Preload for critical font files
+- Subset loading for reduced size
 
-### Typography
-- **Font Family:** Geist Sans (primary), Geist Mono (code)
-- **Font Loading:** display: 'swap' for optimal FCP
-- **Sizes:** 11px - 17px for body text
+## Configuration
 
-### Spacing
-- **Base Unit:** 4px (via Tailwind)
-- **Component Padding:** 8px - 16px
-- **Gap:** 8px - 12px between elements
-
----
-
-## 📈 Performance Metrics
-
-### Bundle Size
-```
-Route (app)               Size     First Load JS
-┌ ○ /                    ~142 kB         ~256 kB
-└ ○ /_not-found          ~87 kB          ~201 kB
+**next.config.ts**
+```typescript
+{
+  compress: true,
+  output: 'standalone',
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    optimizeCss: true,
+  }
+}
 ```
 
-### Core Web Vitals (Target)
-- **LCP:** < 2.5s ✅
-- **FID:** < 100ms ✅
-- **CLS:** < 0.1 ✅
-- **TBT:** < 200ms ✅
+**tsconfig.json**
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
 
----
+## Environment
 
-## 🐛 Known Issues & Limitations
+No environment variables required. Works out of the box with mock data.
 
-1. **Mock Data:** Uses generated mock data instead of real API
-2. **WebSocket:** Simulated with setInterval, not actual WebSocket
-3. **Images:** Uses picsum.photos for placeholder images
+For production API integration, add:
+```bash
+NEXT_PUBLIC_API_URL=your-api-url
+NEXT_PUBLIC_WS_URL=your-websocket-url
+```
 
----
+## Development
 
-## 🤝 Contributing
+**Code Quality**
+- TypeScript strict mode
+- ESLint with Next.js config
+- Comprehensive type definitions
+- No any types
 
-This is a demonstration project built for evaluation purposes. Not accepting contributions at this time.
+**State Management**
+- Redux: UI state, price updates
+- React Query: Server state, caching
+- Local state: Component-specific
 
----
+**Component Patterns**
+- Atomic design
+- Props interfaces with JSDoc
+- Display names for debugging
+- Error boundaries
 
-## 📄 License
+## Browser Support
 
-MIT License - See LICENSE file for details
+- Chrome/Edge 90+
+- Firefox 88+
+- Safari 14+
+- Mobile browsers with modern CSS support
 
----
+## Testing
 
-## 👤 Author
+```bash
+# Run ESLint
+npm run lint
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+# Type check
+npx tsc --noEmit
 
----
+# Lighthouse audit
+npx lighthouse http://localhost:3000 --view
+```
 
-## 🙏 Acknowledgments
+## Deployment
 
-- Design inspiration: [Axiom Trade](https://axiom.trade/pulse)
-- UI Components: [Radix UI](https://www.radix-ui.com/)
-- Icons: [Lucide React](https://lucide.dev/)
-- Fonts: [Geist Font Family](https://vercel.com/font)
+**Vercel (Recommended)**
+```bash
+# Install Vercel CLI
+npm i -g vercel
 
----
+# Deploy
+vercel
+```
 
-## 📚 Documentation
+**Docker**
+```bash
+docker build -t axiom-trade-clone .
+docker run -p 3000:3000 axiom-trade-clone
+```
 
-### Additional Resources
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [React Query](https://tanstack.com/query/latest)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
+**Static Export** (if needed)
+```bash
+# Update next.config.ts: output: 'export'
+npm run build
+# Deploy 'out' directory to any static host
+```
 
----
+## Known Limitations
 
-**Built with ❤️ for the assignment evaluation**
+1. Mock data only (no real blockchain integration)
+2. Simulated WebSocket (not actual WebSocket connection)
+3. No persistence (data resets on reload)
+4. Client-side rendering for dynamic content
 
-*Last Updated: November 2024*
+## Documentation
+
+- [DOCUMENTATION.md](./DOCUMENTATION.md) - Comprehensive technical documentation
+- [IMPLEMENTATION.md](./IMPLEMENTATION.md) - Implementation details
+- [DEVELOPMENT.md](./DEVELOPMENT.md) - Development notes
+
+## Performance Metrics
+
+**Lighthouse Scores (Target)**
+- Performance: 90+
+- Accessibility: 85+
+- Best Practices: 100
+- SEO: 60+
+
+**Core Web Vitals**
+- LCP (Largest Contentful Paint): <2.5s
+- FID (First Input Delay): <100ms
+- CLS (Cumulative Layout Shift): <0.1
+
+**Bundle Size**
+- Main bundle: ~256 KB
+- Initial JS: ~142 KB
+- CSS: ~12 KB
+
+## Architecture Highlights
+
+**Atomic Components**
+- 5 atoms (Button, Badge, Avatar, IconButton, MiniChart)
+- 4 molecules (Tooltip, Modal, Popover, SearchBar)
+- 5 organisms (TokenCardGrid, TokenTable, ErrorBoundary, etc.)
+
+**DRY Principles**
+- Shared formatters (currency, price, percentage)
+- Reusable hooks (useWebSocketMock)
+- Centralized types (TokenPair, PriceUpdate)
+- API abstraction layer
+
+**Type Safety**
+- 100% TypeScript coverage
+- No any types
+- Strict null checks
+- Comprehensive interfaces
+
+## License
+
+MIT License - See [LICENSE](./LICENSE) for details
+
+## Author
+
+Built for assignment evaluation
+
+Last Updated: November 2024

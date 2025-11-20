@@ -40,7 +40,7 @@ export const Modal: React.FC<ModalProps> = React.memo(({
         <DialogPrimitive.Content
           className={`
             fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%]
-            w-full ${sizeClasses[size]} rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-lg
+            w-full ${sizeClasses[size]} rounded-lg border border-gray-700 bg-[#1a1a1a] p-6 shadow-lg
             animate-in fade-in-0 zoom-in-95 slide-in-from-left-1/2 slide-in-from-top-[48%]
             data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95
           `}

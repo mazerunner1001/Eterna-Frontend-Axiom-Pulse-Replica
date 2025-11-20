@@ -2,17 +2,10 @@
 
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
 import { fetchTokens } from '@/lib/api';
 import { useWebSocketMock } from '@/hooks/useWebSocketMock';
 import { TokenCardGrid, ErrorBoundary } from '@/components/organisms';
 import type { TokenPair } from '@/types';
-
-// Lazy load TokenDetailModal - only loaded when needed
-const TokenDetailModal = dynamic(
-  () => import('@/components/organisms/TokenDetailModal').then(mod => ({ default: mod.TokenDetailModal })),
-  { ssr: false }
-);
 
 export default function Home() {
   const [displayOpen, setDisplayOpen] = React.useState(false);
@@ -203,9 +196,29 @@ export default function Home() {
 
             {/* Pulse Header Row */}
             <div className="flex items-center justify-between py-4.5 shrink-0 border-b border-gray-800/30">
-              {/* Left Section - Pulse title only */}
-              <div className="flex items-center">
+              {/* Left Section - Pulse title with action buttons */}
+              <div className="flex items-center gap-2">
                 <h2 className="text-base sm:text-[20px] font-semibold ml-1 text-white">Pulse</h2>
+                
+                {/* Menu/Hamburger Button */}
+                <button 
+                  className="w-7 h-7 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors"
+                  aria-label="Menu"
+                >
+                  <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                
+                {/* Cube/Package Button */}
+                <button 
+                  className="w-7 h-7 rounded bg-black hover:bg-gray-900 border border-black flex items-center justify-center transition-colors"
+                  aria-label="Packages"
+                >
+                  <svg className="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                </button>
               </div>
 
               {/* Right - Display Controls */}
@@ -491,8 +504,6 @@ export default function Home() {
           </div>
         </footer>
 
-        {/* Token Detail Modal */}
-        <TokenDetailModal />
       </main>
     </ErrorBoundary>
   );
