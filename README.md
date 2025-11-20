@@ -216,9 +216,12 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 - Mobile browsers with modern CSS support
 ## Mobile Responsive Design
 
-![Desktop View](/Desktop View.png)
-![Tablet View](/Tablet View.png)
-![Mobile View](/Mobile View.png)
+## Mobile Responsive Design
+
+![Desktop View](Desktop View.png) 
+![Tablet View](Tablet View.png) 
+![Mobile View](Mobile View.png)
+
 
 1. Mock data only (no real blockchain integration)
 2. Simulated WebSocket (not actual WebSocket connection)
@@ -265,13 +268,3 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 - No any types
 - Strict null checks
 - Comprehensive interfaces
-
-## License
-
-MIT License - See [LICENSE](./LICENSE) for details
-
-## Author
-
-Built for assignment evaluation
-
-Last Updated: November 2024
