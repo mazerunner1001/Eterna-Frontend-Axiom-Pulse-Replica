@@ -8,17 +8,14 @@
 import React from 'react';
 import { TokenPair } from '@/types';
 import { 
-  TrendingUp, 
   TrendingDown, 
   Users, 
-  Twitter,
   Globe,
   ExternalLink,
   Zap,
   Activity,
   CheckCircle2,
   Flame,
-  Lock,
   Music2,
   AlertCircle,
   Droplets
@@ -72,13 +69,15 @@ const TokenCard: React.FC<{ token: TokenPair }> = ({ token }) => {
   ];
 
   return (
-    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] transition-all cursor-pointer px-4 py-2 flex gap-2.5 group">
+    <div className="bg-[#111111] border-b border-r border-[#1f2937]/50 hover:bg-[#151515] transition-all cursor-pointer px-4 py-2 flex gap-2.5 group card-shimmer">
       {/* Left Column: Image + Username (takes full height) */}
       <div className="shrink-0 flex flex-col justify-between">
         <div className="relative">
           <img 
             src={token.image} 
             alt={token.symbol}
+            loading="lazy"
+            decoding="async"
             className="w-[76px] h-[76px] rounded-md object-cover border-2 border-green-500 group-hover:border-green-400 transition-colors"
           />
           <Tooltip content="Verified Token">
@@ -318,7 +317,7 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading 
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg">
         {Array.from({ length: 3 }).map((_, colIdx) => (
           <div key={colIdx} className={`bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 ${colIdx === 0 ? 'rounded-tl-lg rounded-bl-lg' : colIdx === 2 ? 'rounded-tr-lg rounded-br-lg' : ''}`}>
             <div className="h-16 bg-[#1a1a1a] border-b border-[#1f2937]/50 animate-pulse" />
@@ -347,7 +346,7 @@ export const TokenCardGrid: React.FC<TokenCardGridProps> = ({ tokens, isLoading 
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg overflow-hidden">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 flex-1 overflow-hidden min-h-0 mb-6 rounded-lg">
       {/* New Pairs Column - Independently Scrollable */}
       <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col min-h-0 rounded-tl-lg rounded-bl-lg">
         <ColumnHeader 

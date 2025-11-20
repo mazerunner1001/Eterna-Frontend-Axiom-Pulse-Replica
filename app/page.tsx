@@ -1,10 +1,17 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import { fetchTokens } from '@/lib/api';
 import { useWebSocketMock } from '@/hooks/useWebSocketMock';
-import { TokenCardGrid, ErrorBoundary, TokenDetailModal } from '@/components/organisms';
+import { TokenCardGrid, ErrorBoundary } from '@/components/organisms';
 import type { TokenPair } from '@/types';
+
+// Lazy load TokenDetailModal - only loaded when needed
+const TokenDetailModal = dynamic(
+  () => import('@/components/organisms/TokenDetailModal').then(mod => ({ default: mod.TokenDetailModal })),
+  { ssr: false }
+);
 
 export default function Home() {
   // Fetch initial token data
