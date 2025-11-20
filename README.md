@@ -220,9 +220,9 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 
 <!-- Container div to group images -->
 <div style="display: flex; justify-content: space-around; gap: 10px;">
-  <img src="Desktop View.png" alt="Desktop View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
-  <img src="Tablet View.png" alt="Tablet View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
-  <img src="Mobile View.png" alt="Mobile View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+  <img src="desktop-view.png" alt="Desktop View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+  <img src="tablet-view.png" alt="Tablet View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
+  <img src="mobile-view.png" alt="Mobile View" width="300" style="border: 1px solid #ddd; border-radius: 4px;">
 </div>
 
 
