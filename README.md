@@ -220,7 +220,7 @@ NEXT_PUBLIC_WS_URL=your-websocket-url
 
 | Desktop View | Tablet View | Mobile View |
 |:------------:|:-----------:|:-----------:|
-| ![Desktop View](desktop-view.png) | ![Tablet View](tablet-view.png) | ![Mobile View](mobile-view.png) |
+| ![Desktop View](https://github.com/user-attachments/assets/b30d78b4-6c67-405c-9356-621fae0a5fc3) | ![Tablet View](https://github.com/user-attachments/assets/07c3b3c8-96df-413c-a00c-8230823eb9c4) | ![Mobile View](https://github.com/user-attachments/assets/5cbb9e3e-caa3-4f8c-8bf4-ed1ab5b97c3a) |
 
 
 ## Documentation
