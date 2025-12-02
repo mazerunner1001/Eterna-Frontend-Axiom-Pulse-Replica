@@ -431,8 +431,19 @@ const TokenColumn: React.FC<{
 }> = React.memo(({ status, title, icon, globalSortBy }) => {
   const listRef = React.useRef<any>(null);
   
-  // Reduce initial batch size on mobile
-  const isMobileView = typeof window !== 'undefined' && window.innerWidth < 1024;
+  // Use state to avoid hydration mismatch - default to desktop (false)
+  const [isMobileView, setIsMobileView] = React.useState(false);
+  
+  React.useEffect(() => {
+    // Set mobile view after hydration (client-side only)
+    setIsMobileView(window.innerWidth < 1024);
+    
+    // Optional: Listen for resize
+    const handleResize = () => setIsMobileView(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
   const batchSize = isMobileView ? 15 : 20;
   
   // Infinite query for this column
@@ -465,7 +476,7 @@ const TokenColumn: React.FC<{
   const handleScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
     const now = Date.now();
     // Throttle to max once per 200ms on mobile, 100ms on desktop
-    const throttleDelay = typeof window !== 'undefined' && window.innerWidth < 1024 ? 200 : 100;
+    const throttleDelay = isMobileView ? 200 : 100;
     
     if (now - lastScrollTime.current < throttleDelay) return;
     lastScrollTime.current = now;
@@ -476,7 +487,7 @@ const TokenColumn: React.FC<{
     if (scrollHeight - scrollTop - clientHeight < 200 && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, isMobileView]);
 
   return (
     <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col flex-1 min-h-0 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">

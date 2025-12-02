@@ -89,8 +89,8 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
             width={76}
             height={76}
             loading="lazy"
+            quality={75}
             className="w-[60px] h-[60px] sm:w-[76px] sm:h-[76px] rounded-md object-cover border-2 border-green-500"
-            unoptimized
           />
           <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
             <Music2 className="w-2.5 h-2.5 text-white" />
@@ -431,6 +431,21 @@ const TokenColumn: React.FC<{
 }> = React.memo(({ status, title, icon, globalSortBy }) => {
   const listRef = React.useRef<any>(null);
   
+  // Use state to avoid hydration mismatch - default to desktop (false)
+  const [isMobileView, setIsMobileView] = React.useState(false);
+  
+  React.useEffect(() => {
+    // Set mobile view after hydration (client-side only)
+    setIsMobileView(window.innerWidth < 1024);
+    
+    // Optional: Listen for resize
+    const handleResize = () => setIsMobileView(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const batchSize = isMobileView ? 15 : 20;
+  
   // Infinite query for this column
   const {
     data,
@@ -440,7 +455,7 @@ const TokenColumn: React.FC<{
     isLoading,
   } = useInfiniteQuery({
     queryKey: ['tokens', status, globalSortBy],
-    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, 20),
+    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, batchSize),
     getNextPageParam: (lastPage, pages) => 
       lastPage.hasMore ? pages.length : undefined,
     initialPageParam: 0,
@@ -461,7 +476,7 @@ const TokenColumn: React.FC<{
   const handleScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
     const now = Date.now();
     // Throttle to max once per 200ms on mobile, 100ms on desktop
-    const throttleDelay = typeof window !== 'undefined' && window.innerWidth < 1024 ? 200 : 100;
+    const throttleDelay = isMobileView ? 200 : 100;
     
     if (now - lastScrollTime.current < throttleDelay) return;
     lastScrollTime.current = now;
@@ -472,7 +487,7 @@ const TokenColumn: React.FC<{
     if (scrollHeight - scrollTop - clientHeight < 200 && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, isMobileView]);
 
   return (
     <div className="bg-[#111111] border-l border-t border-[#1f2937]/50 flex flex-col flex-1 min-h-0 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">
@@ -481,11 +496,12 @@ const TokenColumn: React.FC<{
       <div 
         className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
         onScroll={handleScroll}
+        style={{ touchAction: 'pan-y' }}
       >
         {isLoading ? (
-          // Loading skeleton
-          Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
+          // Loading skeleton - fewer on mobile
+          Array.from({ length: isMobileView ? 3 : 5 }).map((_, i) => (
+            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 p-2 flex gap-2.5">
               <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
               <div className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2">

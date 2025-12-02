@@ -12,9 +12,6 @@ import { useAppDispatch } from '@/store/hooks';
 import { updatePrice } from '@/store/slices/tokensSlice';
 import { TokenPair, PriceUpdate } from '@/types';
 
-// Adjust update interval based on device
-const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-const UPDATE_INTERVAL = isMobile ? 3000 : 2000; // Update every 3s on mobile, 2s on desktop
 const PRICE_CHANGE_FACTOR = 0.05; // Max 5% change per update
 
 export const useWebSocketMock = (enabled: boolean = true) => {
@@ -24,6 +21,10 @@ export const useWebSocketMock = (enabled: boolean = true) => {
 
   useEffect(() => {
     if (!enabled) return;
+    
+    // Adjust update interval based on device (client-side only)
+    const isMobile = window.innerWidth < 1024;
+    const UPDATE_INTERVAL = isMobile ? 3000 : 2000;
 
     intervalRef.current = setInterval(() => {
       // Get current tokens from React Query cache
