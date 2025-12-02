@@ -89,8 +89,8 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
             width={76}
             height={76}
             loading="lazy"
-            quality={75}
             className="w-[60px] h-[60px] sm:w-[76px] sm:h-[76px] rounded-md object-cover border-2 border-green-500"
+            unoptimized
           />
           <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
             <Music2 className="w-2.5 h-2.5 text-white" />
@@ -165,27 +165,28 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
           {/* Status Badges Row - Pills */}
           <div className="flex items-center gap-1.5 text-xs font-semibold shrink min-w-0 overflow-x-hidden">
             {statusBadges.map((badge, idx) => (
-              <div 
-                key={idx}
-                className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} shrink-0`}
-                title={badge.tooltip}
-              >
-                {badge.icon === 0 && <Users className="w-3 h-3" />}
-                {badge.icon === 1 && <Activity className="w-3 h-3" />}
-                {badge.icon === 3 && <TrendingDown className="w-3 h-3" />}
-                <span className="text-[11px]">{badge.label}</span>
-              </div>
+              <Tooltip key={idx} content={badge.tooltip}>
+                <div 
+                  className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} hover:bg-black/80 transition-all cursor-help shrink-0`}
+                >
+                  {badge.icon === 0 && <Users className="w-3 h-3" />}
+                  {badge.icon === 1 && <Activity className="w-3 h-3" />}
+                  {badge.icon === 3 && <TrendingDown className="w-3 h-3" />}
+                  <span className="text-[11px]">{badge.label}</span>
+                </div>
+              </Tooltip>
             ))}
           </div>
 
           {/* Action Button */}
-          <button 
-            className="px-2.5 py-0.5 bg-blue-600 hover:bg-blue-400 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0"
-            aria-label="Quick Trade"
-          >
-            <Zap className="w-3.5 h-3.5 text-black" />
-            <span className="whitespace-nowrap text-black">0 SOL</span>
-          </button>
+          <Tooltip content="Quick Trade">
+            <button 
+              className="px-2.5 py-0.5 bg-blue-600 hover:bg-blue-400 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0 hover:shadow-lg hover:shadow-blue-500/30"
+            >
+              <Zap className="w-3.5 h-3.5 text-black" />
+              <span className="whitespace-nowrap text-black">0 SOL</span>
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>
@@ -431,10 +432,6 @@ const TokenColumn: React.FC<{
 }> = React.memo(({ status, title, icon, globalSortBy }) => {
   const listRef = React.useRef<any>(null);
   
-  // Reduce initial batch size on mobile
-  const isMobileView = typeof window !== 'undefined' && window.innerWidth < 1024;
-  const batchSize = isMobileView ? 15 : 20;
-  
   // Infinite query for this column
   const {
     data,
@@ -444,7 +441,7 @@ const TokenColumn: React.FC<{
     isLoading,
   } = useInfiniteQuery({
     queryKey: ['tokens', status, globalSortBy],
-    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, batchSize),
+    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, 20),
     getNextPageParam: (lastPage, pages) => 
       lastPage.hasMore ? pages.length : undefined,
     initialPageParam: 0,
@@ -458,18 +455,8 @@ const TokenColumn: React.FC<{
 
   const totalCount = data?.pages[0]?.total ?? 0;
 
-  // Throttle scroll handler for better mobile performance
-  const lastScrollTime = React.useRef<number>(0);
-  
-  // Handle scroll to load more with throttling
+  // Handle scroll to load more
   const handleScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
-    const now = Date.now();
-    // Throttle to max once per 200ms on mobile, 100ms on desktop
-    const throttleDelay = typeof window !== 'undefined' && window.innerWidth < 1024 ? 200 : 100;
-    
-    if (now - lastScrollTime.current < throttleDelay) return;
-    lastScrollTime.current = now;
-    
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
     
     // Load more when scrolled to bottom 200px
@@ -485,12 +472,11 @@ const TokenColumn: React.FC<{
       <div 
         className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
         onScroll={handleScroll}
-        style={{ touchAction: 'pan-y' }}
       >
         {isLoading ? (
-          // Loading skeleton - fewer on mobile
-          Array.from({ length: isMobileView ? 3 : 5 }).map((_, i) => (
-            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 p-2 flex gap-2.5">
+          // Loading skeleton
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
               <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
               <div className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2">

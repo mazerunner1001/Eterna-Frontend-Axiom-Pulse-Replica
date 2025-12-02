@@ -485,7 +485,6 @@ const TokenColumn: React.FC<{
       <div 
         className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
         onScroll={handleScroll}
-        style={{ touchAction: 'pan-y' }}
       >
         {isLoading ? (
           // Loading skeleton - fewer on mobile

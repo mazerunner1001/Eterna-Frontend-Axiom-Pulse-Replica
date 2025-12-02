@@ -9,14 +9,6 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-    ],
-    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200],
-    imageSizes: [16, 32, 48, 64, 76, 96, 128, 256],
   },
   
   // Production optimizations

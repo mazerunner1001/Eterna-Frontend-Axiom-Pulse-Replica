@@ -485,12 +485,11 @@ const TokenColumn: React.FC<{
       <div 
         className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
         onScroll={handleScroll}
-        style={{ touchAction: 'pan-y' }}
       >
         {isLoading ? (
-          // Loading skeleton - fewer on mobile
-          Array.from({ length: isMobileView ? 3 : 5 }).map((_, i) => (
-            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 p-2 flex gap-2.5">
+          // Loading skeleton
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
               <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
               <div className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2">

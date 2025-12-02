@@ -89,8 +89,8 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
             width={76}
             height={76}
             loading="lazy"
-            quality={75}
             className="w-[60px] h-[60px] sm:w-[76px] sm:h-[76px] rounded-md object-cover border-2 border-green-500"
+            unoptimized
           />
           <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-600 rounded-full border-2 border-[#111111] flex items-center justify-center">
             <Music2 className="w-2.5 h-2.5 text-white" />
@@ -137,26 +137,45 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
 
           {/* Right: Stats Column */}
           <div className="text-right shrink-0 space-y-0">
-            <div className={`flex items-center justify-end gap-1.5 transition-all duration-300 ${
-              priceDirection === 'up' ? 'price-flash-up' : priceDirection === 'down' ? 'price-flash-down' : ''
-            }`} title="Market Cap">
-              <span className="text-gray-600 text-[12px] font-bold">MC</span>
-              <span className="font-bold text-[15px] text-yellow-500">{formatNumber(token.marketCap)}</span>
-            </div>
-            <div className="flex items-center justify-end gap-1.5" title="24h Volume">
-              <span className="text-gray-600 text-[11px] font-bold">V</span>
-              <span className="text-white font-semibold text-[15px]">{formatNumber(token.volume24h)}</span>
-            </div>
-            <div className="flex items-center gap-1.5 justify-end text-[10px] bg-[#0a0a0a] px-1.5 py-0.5 rounded" title={`F-Score: 1.563 | TX Count: ${token.txns.buys + token.txns.sells}`}>
-              <span className="text-gray-600 text-[10px] font-bold">F</span>
-              <span className="text-white font-semibold text-[13px]">1.563</span>
-              <span className="text-gray-500 text-[10px] font-bold">TX</span>
-              <span className="text-white text-[13px] font-semibold">{token.txns.buys + token.txns.sells}</span>
-              <div className="w-8 h-0.5 bg-gray-800 rounded-full overflow-hidden flex">
-                <div className="h-full bg-emerald-500" style={{ width: '60%' }} />
-                <div className="h-full bg-red-500" style={{ width: '40%' }} />
+            <Tooltip content="Market Cap">
+              <div className={`flex items-center justify-end gap-1.5 transition-all duration-300 ${
+                priceDirection === 'up' ? 'price-flash-up' : priceDirection === 'down' ? 'price-flash-down' : ''
+              }`}>
+                <span className="text-gray-600 text-[12px] font-bold">MC</span>
+                <span className={`font-bold text-[15px] transition-colors ${
+                  priceDirection === 'up' ? 'text-yellow-500' : priceDirection === 'down' ? 'text-yellow-500' : 'text-yellow-500'
+                }`}>{formatNumber(token.marketCap)}</span>
               </div>
-            </div>
+            </Tooltip>
+            <Tooltip content="24h Volume">
+              <div className="flex items-center justify-end gap-1.5">
+                <span className="text-gray-600 text-[11px] font-bold">V</span>
+                <span className="text-white font-semibold text-[15px]">{formatNumber(token.volume24h)}</span>
+              </div>
+            </Tooltip>
+            <Tooltip content={`F-Score: 1.563 | TX Count: ${token.txns.buys + token.txns.sells}`}>
+              <div className="flex items-center gap-1.5 justify-end text-[10px] bg-[#0a0a0a] px-1.5 py-0.5 rounded">
+                <span className="text-gray-600 text-[10px] font-bold">F</span>
+                <svg className="w-3 h-3" viewBox="0 0 397.7 311.7">
+                  <defs>
+                    <linearGradient id={`solGrad-${token.id}`} x1="360.88" y1="351.46" x2="-263.33" y2="-351.46" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="#00ffa3"/>
+                      <stop offset="1" stopColor="#dc1fff"/>
+                    </linearGradient>
+                  </defs>
+                  <path fill={`url(#solGrad-${token.id})`} d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+                  <path fill={`url(#solGrad-${token.id})`} d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1z"/>
+                  <path fill={`url(#solGrad-${token.id})`} d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1z"/>
+                </svg>
+                <span className="text-white font-semibold text-[13px]">1.563</span>
+                <span className="text-gray-500 text-[10px] font-bold">TX</span>
+                <span className="text-white text-[13px] font-semibold"> {token.txns.buys + token.txns.sells}</span>
+                <div className="w-8 h-0.5 bg-gray-800 rounded-full overflow-hidden flex">
+                  <div className="h-full bg-emerald-500" style={{ width: '60%' }} />
+                  <div className="h-full bg-red-500" style={{ width: '40%' }} />
+                </div>
+              </div>
+            </Tooltip>
           </div>
         </div>
 
@@ -165,27 +184,28 @@ const TokenCard: React.FC<{ token: TokenPair }> = React.memo(({ token }) => {
           {/* Status Badges Row - Pills */}
           <div className="flex items-center gap-1.5 text-xs font-semibold shrink min-w-0 overflow-x-hidden">
             {statusBadges.map((badge, idx) => (
-              <div 
-                key={idx}
-                className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} shrink-0`}
-                title={badge.tooltip}
-              >
-                {badge.icon === 0 && <Users className="w-3 h-3" />}
-                {badge.icon === 1 && <Activity className="w-3 h-3" />}
-                {badge.icon === 3 && <TrendingDown className="w-3 h-3" />}
-                <span className="text-[11px]">{badge.label}</span>
-              </div>
+              <Tooltip key={idx} content={badge.tooltip}>
+                <div 
+                  className={`px-2 py-0.5 bg-black rounded-full flex items-center gap-1 ${badge.color} hover:bg-black/80 transition-all cursor-help shrink-0`}
+                >
+                  {badge.icon === 0 && <Users className="w-3 h-3" />}
+                  {badge.icon === 1 && <Activity className="w-3 h-3" />}
+                  {badge.icon === 3 && <TrendingDown className="w-3 h-3" />}
+                  <span className="text-[11px]">{badge.label}</span>
+                </div>
+              </Tooltip>
             ))}
           </div>
 
           {/* Action Button */}
-          <button 
-            className="px-2.5 py-0.5 bg-blue-600 hover:bg-blue-400 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0"
-            aria-label="Quick Trade"
-          >
-            <Zap className="w-3.5 h-3.5 text-black" />
-            <span className="whitespace-nowrap text-black">0 SOL</span>
-          </button>
+          <Tooltip content="Quick Trade">
+            <button 
+              className="px-2.5 py-0.5 bg-blue-600 hover:bg-blue-400 text-white text-[13px] font-bold rounded-full flex items-center justify-center gap-1 transition-all shrink-0 hover:shadow-lg hover:shadow-blue-500/30"
+            >
+              <Zap className="w-3.5 h-3.5 text-black" />
+              <span className="whitespace-nowrap text-black">0 SOL</span>
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>
@@ -431,10 +451,6 @@ const TokenColumn: React.FC<{
 }> = React.memo(({ status, title, icon, globalSortBy }) => {
   const listRef = React.useRef<any>(null);
   
-  // Reduce initial batch size on mobile
-  const isMobileView = typeof window !== 'undefined' && window.innerWidth < 1024;
-  const batchSize = isMobileView ? 15 : 20;
-  
   // Infinite query for this column
   const {
     data,
@@ -444,7 +460,7 @@ const TokenColumn: React.FC<{
     isLoading,
   } = useInfiniteQuery({
     queryKey: ['tokens', status, globalSortBy],
-    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, batchSize),
+    queryFn: ({ pageParam = 0 }) => fetchTokensBatch(status, pageParam, 20),
     getNextPageParam: (lastPage, pages) => 
       lastPage.hasMore ? pages.length : undefined,
     initialPageParam: 0,
@@ -458,18 +474,8 @@ const TokenColumn: React.FC<{
 
   const totalCount = data?.pages[0]?.total ?? 0;
 
-  // Throttle scroll handler for better mobile performance
-  const lastScrollTime = React.useRef<number>(0);
-  
-  // Handle scroll to load more with throttling
+  // Handle scroll to load more
   const handleScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
-    const now = Date.now();
-    // Throttle to max once per 200ms on mobile, 100ms on desktop
-    const throttleDelay = typeof window !== 'undefined' && window.innerWidth < 1024 ? 200 : 100;
-    
-    if (now - lastScrollTime.current < throttleDelay) return;
-    lastScrollTime.current = now;
-    
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
     
     // Load more when scrolled to bottom 200px
@@ -485,12 +491,11 @@ const TokenColumn: React.FC<{
       <div 
         className="overflow-y-auto scrollbar-thin flex-1 space-y-0"
         onScroll={handleScroll}
-        style={{ touchAction: 'pan-y' }}
       >
         {isLoading ? (
-          // Loading skeleton - fewer on mobile
-          Array.from({ length: isMobileView ? 3 : 5 }).map((_, i) => (
-            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 p-2 flex gap-2.5">
+          // Loading skeleton
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-[120px] bg-[#1a1a1a] border-b border-r border-[#1f2937]/50 animate-pulse p-2 flex gap-2.5">
               <div className="w-[76px] h-[76px] bg-[#222222] rounded-md" />
               <div className="flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
